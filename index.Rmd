@@ -1,19 +1,163 @@
----
-title: "R Notebook"
-output: html_notebook
----
+![](pics/LOGO_AID.png)
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+<a id='beginning'></a>
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+### Contenidos
 
-```{r}
-plot(cars)
-```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+1. [Información General](#part1) 
+2. [Sumilla](#part2) 
+3. [Aporte del curso](#part3) 
+4. [Resultados de aprendizaje del curso](#part4)  
+5. [Evaluación](#part5)
+6. [Bibliografía Básica](#part6)
+7. [Programación de Clases](#part7)
+   
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+____
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+<a id='part1'></a>
 
+### 1. Información General
+
+
+* Nombre del curso: **CURSO DE ACTUALIZACION EN ESTADISTICA**
+* Año:**2019**
+* Horas: **Treinta** (30)
+* Días: Lunes, Martes y Viernes
+* Profesor:  Dr. José Manuel Magallanes, PhD ([josemanuel.magallanes@gmail.com](mailto:josemanuel.magallanes@gmail.com))
+
+ 
+____
+<a id='part2'></a>
+
+### 2. Sumilla
+
+Es un curso de carácter teórico-práctico donde el alumno aprende a aplicar técnicas descriptivas y predictivas sobre datos multivariantes de origen no experimental con un enfoque computacional. Durante el desarrollo del curso, el alumno debe perfeccionar su capacidad analítica y propósitiva, con coherencia metodológica y ética.
+
+
+
+____
+<a id='part3'></a>
+
+### 3. Aporte del curso:
+
+ 
+* Consolida su capacidad de abstracción de problemas complejos mediante el análisis de datos.
+* Perfecciona su capacidad de síntesis ante datos multivariantes produciendo reportes comprensibles ante diferentes tipos de audiencias.
+* Eleva su capacidad comparativa y métrica.
+
+
+
+
+____
+<a id='part4'></a>
+
+### 4. Resultados de aprendizaje del curso:
+
+* Sabe decidir qué técnica es más apropiada ante determinada situación de análisis.
+* Sabe organizar sus datos para facilitar el procesos de análisis y presentación.
+* Sabe crear indicadores complejos.
+* Maneja adecuadamente el R y otros programas de análisis estadístico y de organización datos.
+
+
+
+
+____
+<a id='part5'></a>
+
+
+### 5. Evaluación
+
+La evaluación se realizará de modo continuo a lo largo del curso, considerando los siguientes componentes:
+
+**5.1. PARTICIPACION ACTIVA (PA)**
+
+El alumno o grupo de alumnos deberá proponer un caso real de análisis de datos. Esto implica traer datos a la clase que puedan ser utilizados para practicar los conceptos y técnicas aprendidas en el curso.
+
+
+**5.2. REPORTE FINAL (RF)**
+
+El alumno debe preparar y entregar un reporte final que integre lo visto en el curso y cómo lo aplico a sus datos.
+
+
+**5.3. FORMULA** 
+
+Nota Final= 0.6xPA + 0.4xRF
+
+
+
+____
+<a id='part6'></a>
+
+
+### 6. Bibliografía Básica
+
+* LIBROS DE CONSULTA 
+
+Magallanes, José Manuel (2012). Tour Guiado por la Estadística Básica. Pontificia Universidad Católica del Peru.
+
+Magallanes, José Manuel (2017). Introduction to Data Science for Social and Policy Research. Cambridge University Press.
+
+Andina, Matias (2018). Introducción a estadística con R. [https://bookdown.org/matiasandina/R-intro/](https://bookdown.org/matiasandina/R-intro/)
+
+
+____
+<a id='part7'></a>
+
+### 7. Programación de Clases
+
+1. Definiciones básicas e Introducción al Programa R
+
+  * Definiciónes basicas. Estadistica y Toma de Decisiones. Escalas de Medición. Exploración de Datos. Modelos Estadisticos. Preparación de reportes.
+  * Presentación del Programa R. 
+  * Uso de repositorios en la nube. 
+  * Uso de RStudio Cloud. Creación y Publicación de Notebooks
+      
+2. Exploración de Datos Categóricos
+
+* Tablas de Frecuencia
+* Medidas de resumen. Posición central. Simetría. Dispersión
+* Gráficas. Barras. Diagramas de Caja
+
+3. Exploración de Datos Numéricos
+
+* Medidas de Resumen. Posición central. Posición, simetría y forma. Dispersión
+* Análisis Gráfico
+
+4. Exploración Bivariada
+
+* Relación entre categóricas
+* Relación entre categóricas y numericas
+* Relación entre numéricas
+
+5. Estadística Multivariada: Regresión Lineal
+* Regresión simple
+* Regresión multivariada
+* Diágnósticos de la regresión
+
+
+6. Estadística Multivariada: Regresión Logística
+* Regresión Logítica Binomial
+* Regresión Logítica Ordinal
+
+7. Estadística Multivariada: Modelos para datos censurados y truncados
+* Regresión Tobit
+* Regresión Beta
+* Regresión Cox
+
+8. Estadística Multivariada: Reducción dimensional
+* Reducción de variables
+* Reducción de Casos
+
+9. Reportes Estadísticos I
+* Integración de R y Latex (I)
+
+10. Reportes Estadísticos II
+* Integración de R y Latex (II)
+
+
+
+
+
+[INICIO](#beginning)

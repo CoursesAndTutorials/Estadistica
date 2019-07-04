@@ -1,0 +1,9 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 1: 
+## **Definiciones básicas e Introducción al _R_**
+
