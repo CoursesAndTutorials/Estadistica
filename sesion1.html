@@ -482,9 +482,49 @@ summary(datosLeidos)</code></pre>
 <p>Si quisieramos ver una variable, podemos seleccionarla usando el simbolo ‘<strong>$</strong>’:</p>
 <pre class="r"><code>summary(datosLeidos$pagoTotal)</code></pre>
 <p>Si queremos lo mismo para dos, podemos usar nombres:</p>
-<pre class="r"><code>summary(datosLeidos[c('pagoTotal','momentoDia')])</code></pre>
+<pre class="r"><code>summary(datosLeidos[,c('pagoTotal','momentoDia')])</code></pre>
 <p>…o posiciones:</p>
-<pre class="r"><code>summary(datosLeidos[c(2,7)])</code></pre>
+<pre class="r"><code>summary(datosLeidos[,c(2,7)])</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Operaciones Lógicas</li>
+</ol>
+<p>Usamos operaciones lógicas para realizar consultas a una tabla de datos. Veamos:</p>
+<ul>
+<li>¿cuanto fue la propina más grande?</li>
+</ul>
+<pre class="r"><code>datosLeidos[datosLeidos$propina==max(datosLeidos$propina),&quot;propina&quot;] # comillas!</code></pre>
+<ul>
+<li>¿En que momento del día fue la propina más grande?</li>
+</ul>
+<pre class="r"><code>datosLeidos[datosLeidos$propina==max(datosLeidos$propina),&quot;momentoDia&quot;] # comillas!</code></pre>
+<ul>
+<li>¿Cuanto fue el pagó total más grande?</li>
+</ul>
+<pre class="r"><code>datosLeidos[datosLeidos$pagoTotal==max(datosLeidos$pagoTotal),&quot;pagoTotal&quot;] # comillas!</code></pre>
+<ul>
+<li>¿Cuanto pagó el que dejó la propina más grande?</li>
+</ul>
+<pre class="r"><code>datosLeidos[datosLeidos$propina==max(datosLeidos$propina),&quot;pagoTotal&quot;] # comillas!</code></pre>
+<ul>
+<li>¿De qué sexo es quien dejó la propina más grande?</li>
+</ul>
+<pre class="r"><code>datosLeidos[datosLeidos$propina==max(datosLeidos$propina),&quot;sex&quot;] # comillas!</code></pre>
+<ul>
+<li>¿Cuál fue la máxima propina que dejó una mujer?</li>
+</ul>
+<pre class="r"><code>max(datosLeidos[datosLeidos$sex=='F','propina'])</code></pre>
+<ul>
+<li>¿Cuantos dejaron menos del 10% de propina?</li>
+</ul>
+<pre class="r"><code>nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal&lt;0.10,])</code></pre>
+<ul>
+<li>¿Cuantos dejaron menos del 10% de propina el fin de semana?</li>
+</ul>
+<pre class="r"><code>nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal&lt;0.10 &amp; datosLeidos$dia%in%c('Sat','Sun'),])</code></pre>
+<ul>
+<li>¿Cuantos dejaron menos del 10% de propina fuera del fin de semana?</li>
+</ul>
+<pre class="r"><code>nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal&lt;0.10 &amp; !datosLeidos$dia%in%c('Sat','Sun'),])</code></pre>
 <hr />
 <p><a href="https://coursesandtutorials.github.io/Estadistica/">Volver al programa del curso</a></p>
 </div>

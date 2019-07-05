@@ -151,18 +151,73 @@ summary(datosLeidos$pagoTotal)
 Si queremos lo mismo para dos, podemos usar nombres:
 
 ```{r, eval=FALSE}
-summary(datosLeidos[c('pagoTotal','momentoDia')])
+summary(datosLeidos[,c('pagoTotal','momentoDia')])
 ```
 
 ...o posiciones:
 
 ```{r, eval=FALSE}
-summary(datosLeidos[c(2,7)])
+summary(datosLeidos[,c(2,7)])
 ```
 
+9. Operaciones Lógicas
+
+Usamos operaciones lógicas para realizar consultas a una tabla de datos. Veamos:
 
 
+* ¿cuanto fue la propina más grande?
 
+```{r, eval=FALSE}
+datosLeidos[datosLeidos$propina==max(datosLeidos$propina),"propina"] # comillas!
+```
+
+* ¿En que momento del día fue la propina más grande?
+
+```{r, eval=FALSE}
+datosLeidos[datosLeidos$propina==max(datosLeidos$propina),"momentoDia"] # comillas!
+```
+
+* ¿Cuanto fue el pagó total más grande?
+
+```{r, eval=FALSE}
+datosLeidos[datosLeidos$pagoTotal==max(datosLeidos$pagoTotal),"pagoTotal"] # comillas!
+```
+
+* ¿Cuanto pagó el que dejó la propina más grande?
+
+```{r, eval=FALSE}
+datosLeidos[datosLeidos$propina==max(datosLeidos$propina),"pagoTotal"] # comillas!
+```
+
+* ¿De qué sexo es quien  dejó la propina más grande?
+
+```{r, eval=FALSE}
+datosLeidos[datosLeidos$propina==max(datosLeidos$propina),"sex"] # comillas!
+```
+
+* ¿Cuál fue la máxima propina que dejó una mujer?
+
+```{r, eval=FALSE}
+max(datosLeidos[datosLeidos$sex=='F','propina'])
+```
+
+* ¿Cuantos dejaron menos del 10% de propina?
+
+```{r, eval=FALSE}
+nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal<0.10,])
+```
+
+* ¿Cuantos dejaron menos del 10% de propina el fin de semana?
+
+```{r, eval=FALSE}
+nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal<0.10 & datosLeidos$dia%in%c('Sat','Sun'),])
+```
+
+* ¿Cuantos dejaron menos del 10% de propina fuera del fin de semana?
+
+```{r, eval=FALSE}
+nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal<0.10 & !datosLeidos$dia%in%c('Sat','Sun'),])
+```
 ____
 
 [Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
