@@ -389,9 +389,8 @@ $(document).ready(function () {
 <div id="definiciones-basicas-e-introduccion-al-r" class="section level2">
 <h2><strong>Definiciones básicas e Introducción al <em>R</em></strong></h2>
 <hr />
-<ol style="list-style-type: decimal">
-<li><strong>Definiciones Básicas</strong></li>
-</ol>
+<div id="parte-1.-definiciones-basicas" class="section level3">
+<h3>Parte 1. <strong>Definiciones Básicas</strong></h3>
 <p>El estudio de la estadística trae consigo el familiarizarse con una serie de conceptos:</p>
 <ul>
 <li><p><strong>POBLACION</strong>. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen algo en común. Eso en común tiene variación (no es una constante), lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo.</p></li>
@@ -411,9 +410,9 @@ $(document).ready(function () {
 </ul>
 <p>Identificar cada tipo de manera correcta es trabajo del analista. Una vez identificado, se puede proceder a elegir la técnica adecuada para su tratamiento.</p>
 <p>No todas la columnas son variables de estudio. Algunas de ellas son los <strong>identificadores</strong>, valores que sirven para identificar cada fila o unidad de análisis.</p>
-<ol start="2" style="list-style-type: decimal">
-<li><strong>Uso del R</strong></li>
-</ol>
+</div>
+<div id="parte-2.-uso-del-r" class="section level3">
+<h3>Parte 2. <strong>Uso del R</strong></h3>
 <p>R es un poderoso y amigable programa para el análisis estadístico, tanto para usuarios básicos como avanzados.</p>
 <p>Cuando los datos están ‘<em>limpios</em>’, y se sabe su ubicación, R recupera el archivo rápidamente:</p>
 <pre class="r"><code>LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vRktYFfrbSdgkIx1G0q9U7dcY_wZ4MhbckBL_4nSR-JC_3pvrvPi273SiQFdgiMXZADQt45vFu7ggAu/pub?gid=1023260375&amp;single=true&amp;output=csv'
@@ -526,7 +525,10 @@ summary(datosLeidos)</code></pre>
 </ul>
 <pre class="r"><code>nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal&lt;0.10 &amp; !datosLeidos$dia%in%c('Sat','Sun'),])</code></pre>
 <hr />
+<p>Practique y pase a resolver estos <a href="https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1_ejercicio.html">ejercicios</a>.</p>
+<hr />
 <p><a href="https://coursesandtutorials.github.io/Estadistica/">Volver al programa del curso</a></p>
+</div>
 </div>
 </div>
 

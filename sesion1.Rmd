@@ -10,7 +10,7 @@ ____
 
 ____
 
-1. **Definiciones Básicas**
+### Parte 1. **Definiciones Básicas**
 
 El estudio de la estadística trae consigo el familiarizarse con una serie de conceptos:
 
@@ -34,7 +34,7 @@ Identificar cada tipo de manera correcta es trabajo del analista. Una vez identi
 No todas la columnas son variables de estudio. Algunas de ellas son los __identificadores__, valores que sirven para identificar cada fila o unidad de análisis.
 
 
-2. **Uso del R**
+### Parte 2. **Uso del R**
 
 R es un poderoso y amigable programa para el análisis estadístico, tanto para usuarios básicos como avanzados.
 
@@ -218,6 +218,11 @@ nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal<0.10 & datosLeidos$di
 ```{r, eval=FALSE}
 nrow(datosLeidos[datosLeidos$propina/datosLeidos$pagoTotal<0.10 & !datosLeidos$dia%in%c('Sat','Sun'),])
 ```
+____
+
+
+Practique y pase a resolver estos [ejercicios](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1_ejercicio.html).
+
 ____
 
 [Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)

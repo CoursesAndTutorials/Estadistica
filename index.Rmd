@@ -112,7 +112,7 @@ ____
 
   * Definiciónes basicas. Estadistica y Toma de Decisiones. Escalas de Medición. Exploración de Datos. Modelos Estadisticos. Preparación de reportes.
   * Presentación del Programa R. 
-  * Uso de repositorios en la nube. 
+  * Uso de repositorios en la nube de GoogleDrive. 
   * Uso de RStudio Cloud. Creación y Publicación de Notebooks
       
 2. Exploración de Datos Categóricos
