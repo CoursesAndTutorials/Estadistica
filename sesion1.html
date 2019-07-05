@@ -389,6 +389,103 @@ $(document).ready(function () {
 <div id="definiciones-basicas-e-introduccion-al-r" class="section level2">
 <h2><strong>Definiciones básicas e Introducción al <em>R</em></strong></h2>
 <hr />
+<ol style="list-style-type: decimal">
+<li><strong>Definiciones Básicas</strong></li>
+</ol>
+<p>El estudio de la estadística trae consigo el familiarizarse con una serie de conceptos:</p>
+<ul>
+<li><p><strong>POBLACION</strong>. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen algo en común. Eso en común tiene variación (no es una constante), lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo.</p></li>
+<li><p><strong>MUESTRA</strong>. La muestra es parte de la población. Se habla de muestra representativa si esta es producto de un proceso que ha respetado principios de selección probabilísticos; de caso contrario, se le denomina muestra de coveniencia. Sólo la representativa permite generalización.</p></li>
+<li><p><strong>PARAMETRO y ESTADIGRAFO</strong>. Los valores que describen una población se denominan parámetros. Siendo las poblaciones tan grandes, se suele usar la muestra para estimar los parámetros desde la muestra. Los valores que describen la muestra son los estadígrafos.</p></li>
+<li><p><strong>TIPO de dato</strong>. Los datos son de diverso tipo. Los programas de análisis estadístico no siempre identifican de manera adecuada esos tipos. Si tomamos una hoja de calculo como referencia, una columna debe tener un sólo tipo de dato. En general los tipos se clasifican en:</p>
+<ul>
+<li>Texto o Cadena de caracteres.</li>
+<li>Categorias Nominales.</li>
+<li>Categorias Ordinales.</li>
+<li>Numeros:
+<ul>
+<li>Discretos.</li>
+<li>Continuos.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Identificar cada tipo de manera correcta es trabajo del analista. Una vez identificado, se puede proceder a elegir la técnica adecuada para su tratamiento.</p>
+<p>No todas la columnas son variables de estudio. Algunas de ellas son los <strong>identificadores</strong>, valores que sirven para identificar cada fila o unidad de análisis.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Uso del R</strong></li>
+</ol>
+<p>R es un poderoso y amigable programa para el análisis estadístico, tanto para usuarios básicos como avanzados.</p>
+<p>Cuando los datos están ‘<em>limpios</em>’, y se sabe su ubicación, R recupera el archivo rápidamente:</p>
+<pre class="r"><code>LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vRktYFfrbSdgkIx1G0q9U7dcY_wZ4MhbckBL_4nSR-JC_3pvrvPi273SiQFdgiMXZADQt45vFu7ggAu/pub?gid=1023260375&amp;single=true&amp;output=csv'
+datosLeidos=read.csv(LINK,stringsAsFactors = F)</code></pre>
+<p>Toda la información ha sido ‘<em>transferida</em>’ usando el simbolo <strong>=</strong> (también se puede utilizar <strong>&lt;-</strong>) a <strong>datosLeidos</strong>. El comando <strong>read.csv</strong> se utilizó pues corresponde al tipo de archivo original en <em>GoogleDrive</em>. Un archivo de este tipo es similar a un archivo en Excel, de hecho puedes abrirlo en Excel fácilmente.</p>
+<p>Veamos algunas funciones básicas de R:</p>
+<ol style="list-style-type: decimal">
+<li>Saber los nombres de las variables:</li>
+</ol>
+<pre class="r"><code>names(datosLeidos)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Ver las primeras filas (6):</li>
+</ol>
+<pre class="r"><code>head(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Ver las ultimas filas:</li>
+</ol>
+<pre class="r"><code>tail(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Renombrar las variables:</li>
+</ol>
+<pre class="r"><code>posicionesCambiar=c(2,3,5,6,7,8) # posicion de las columnas
+
+nuevosNombres=c('pagoTotal','propina','zonaFumador','dia','momentoDia', 'tamañoGrupo')
+
+names(datosLeidos)[posicionesCambiar]=nuevosNombres</code></pre>
+<p>El comando <em>c()</em> es muy utilizado pues sirve para concatenar valores en un <strong>vector</strong>. Justo hemos visto cómo sirve para crear dos vectores.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Identificar Tipo de datos:</li>
+</ol>
+<pre class="r"><code>str(datosLeidos)</code></pre>
+<p>Un <em>int</em> almacena numeros sin decimales, un <em>num</em> numeros con decimales, y <em>chr</em> almacena texto.</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Resumen por variable:</li>
+</ol>
+<pre class="r"><code>summary(datosLeidos)</code></pre>
+<p>Las variables categóricas están guardadas como texto (char), por lo que R no entrega estadisticos de ellas. Si le pedimos a R que las convierta en categorias, el resumen será diferente.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Convertir texto a categoría</li>
+</ol>
+<pre class="r"><code># una variable:
+datosLeidos$sex=as.factor(datosLeidos$sex)
+
+# veamos:
+summary(datosLeidos)</code></pre>
+<p>Hice sólo un cambio, y R me entrega para esa variable el conteo de cada <em>modalidad</em> o categoría.</p>
+<pre class="r"><code># para varios
+
+# [filas,columnas]
+datosLeidos[,c(5:7)]=lapply(datosLeidos[,c(5:7)], as.factor)
+
+# veamos:
+summary(datosLeidos)</code></pre>
+<p>Note el uso de la función <strong>lapply</strong>, que aplica una función a varias columnas. La función a aplicar es <strong>as.factor</strong>, que puede convertir numeros o texto en categorias o <em>factores</em> en el jerga del R.</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Creando subconjuntos.</li>
+</ol>
+<p>Cuando escribimos <em>datosLeidos[,c(5:7)]</em> hemos llamada a un subconjunto de los datos. Esto se debe entender así. Las variables que queriamos transformar están en las columnas de la <em>5</em> a la <em>7</em> del objeto <em>datosLeidos</em>.</p>
+<p>Si uno escribe <em>datosLeidos[1,1]</em> R devuelve una celda (primera fila, primera columna). Si escribimos <em>datosLeidos[,4]</em> devuelve todas las filas de la columna 4.</p>
+<p>Pero escribir <em>datosLeidos[,4,5,6,7]</em> seria un error. Por lo que hay que <strong>concatenar</strong> los valores cuando hay más de una columna. Esto se hace con el comando <strong>c()</strong>.</p>
+<p>El subconjunto pudo haber sido <em>datosLeidos[,c(5,6,7)]</em>; pero el comando <strong>c()</strong> acepta <em>c(5:7)</em> como una secuencia.</p>
+<p>En general, podemos crear una secuencia así:</p>
+<pre class="r"><code>1:10</code></pre>
+<p>Pero si queremos secuencias mas complejas podemos usar:</p>
+<pre class="r"><code>seq(3,20,3)</code></pre>
+<p>Si quisieramos ver una variable, podemos seleccionarla usando el simbolo ‘<strong>$</strong>’:</p>
+<pre class="r"><code>summary(datosLeidos$pagoTotal)</code></pre>
+<p>Si queremos lo mismo para dos, podemos usar nombres:</p>
+<pre class="r"><code>summary(datosLeidos[c('pagoTotal','momentoDia')])</code></pre>
+<p>…o posiciones:</p>
+<pre class="r"><code>summary(datosLeidos[c(2,7)])</code></pre>
+<hr />
 <p><a href="https://coursesandtutorials.github.io/Estadistica/">Volver al programa del curso</a></p>
 </div>
 </div>

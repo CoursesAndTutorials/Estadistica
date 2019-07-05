@@ -5,7 +5,161 @@
 ____
 
 ## Sesión 1: 
+
 ## **Definiciones básicas e Introducción al _R_**
+
+____
+
+1. **Definiciones Básicas**
+
+El estudio de la estadística trae consigo el familiarizarse con una serie de conceptos:
+
+* __POBLACION__. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen algo en común. Eso en común tiene variación (no es una constante), lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo. 
+
+* __MUESTRA__. La muestra es parte de la población. Se habla de muestra representativa si esta es producto de un proceso que ha respetado principios de selección probabilísticos; de caso contrario, se le denomina muestra de coveniencia. Sólo la representativa permite generalización.
+
+* __PARAMETRO y ESTADIGRAFO__. Los valores que describen una población se denominan parámetros. Siendo las poblaciones tan grandes, se suele usar la muestra para estimar los parámetros desde la muestra. Los valores que describen la muestra son los estadígrafos.
+
+* __TIPO de dato__. Los datos son de diverso tipo. Los programas de análisis estadístico no siempre identifican de manera adecuada esos tipos. Si tomamos una hoja de calculo como referencia, una columna debe tener un sólo tipo de dato. En general los tipos se clasifican en:
+
+  - Texto o Cadena de caracteres.
+  - Categorias Nominales.
+  - Categorias Ordinales.
+  - Numeros:
+    - Discretos.
+    - Continuos.
+
+Identificar cada tipo de manera correcta es trabajo del analista. Una vez identificado, se puede proceder a elegir la técnica adecuada para su tratamiento.
+
+No todas la columnas son variables de estudio. Algunas de ellas son los __identificadores__, valores que sirven para identificar cada fila o unidad de análisis.
+
+
+2. **Uso del R**
+
+R es un poderoso y amigable programa para el análisis estadístico, tanto para usuarios básicos como avanzados.
+
+Cuando los datos están '_limpios_', y se sabe su ubicación, R recupera el archivo rápidamente:
+
+```{r, eval=FALSE}
+LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vRktYFfrbSdgkIx1G0q9U7dcY_wZ4MhbckBL_4nSR-JC_3pvrvPi273SiQFdgiMXZADQt45vFu7ggAu/pub?gid=1023260375&single=true&output=csv'
+datosLeidos=read.csv(LINK,stringsAsFactors = F)
+```
+
+Toda la información ha sido '_transferida_' usando el simbolo **=** (también se puede utilizar **<-**) a **datosLeidos**. El comando **read.csv** se utilizó pues corresponde al tipo de archivo original en _GoogleDrive_. Un archivo de este tipo es similar a un archivo en Excel, de hecho puedes abrirlo en Excel fácilmente.
+
+Veamos algunas funciones básicas de R:
+
+1. Saber los nombres de las variables:
+
+```{r, eval=FALSE}
+names(datosLeidos)
+```
+
+2. Ver las primeras filas (6):
+```{r, eval=FALSE}
+head(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas
+```
+
+3. Ver las ultimas filas:
+```{r, eval=FALSE}
+tail(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas
+```
+
+4. Renombrar las variables:
+```{r, eval=FALSE}
+
+posicionesCambiar=c(2,3,5,6,7,8) # posicion de las columnas
+
+nuevosNombres=c('pagoTotal','propina','zonaFumador','dia','momentoDia', 'tamañoGrupo')
+
+names(datosLeidos)[posicionesCambiar]=nuevosNombres
+```
+
+El comando _c()_  es muy utilizado pues sirve para concatenar valores en un **vector**. Justo hemos visto cómo sirve para crear dos vectores. 
+
+5. Identificar Tipo de datos:
+
+```{r, eval=FALSE}
+str(datosLeidos)
+```
+
+Un _int_ almacena numeros sin decimales, un _num_ numeros con decimales, y _chr_ almacena texto.
+
+6. Resumen por variable:
+```{r, eval=FALSE}
+summary(datosLeidos)
+```
+
+Las variables categóricas están guardadas como texto (char), por lo que R no entrega estadisticos de ellas. Si le pedimos a R que las convierta en categorias, el resumen será diferente. 
+
+7. Convertir texto a categoría
+
+```{r, eval=FALSE}
+# una variable:
+datosLeidos$sex=as.factor(datosLeidos$sex)
+
+# veamos:
+summary(datosLeidos)
+```
+
+Hice sólo un cambio, y R me entrega para esa variable el conteo de cada _modalidad_ o categoría.
+
+```{r, eval=FALSE}
+# para varios
+
+# [filas,columnas]
+datosLeidos[,c(5:7)]=lapply(datosLeidos[,c(5:7)], as.factor)
+
+# veamos:
+summary(datosLeidos)
+
+```
+
+
+
+
+Note el uso de la función **lapply**, que aplica una función a varias columnas. La función a aplicar es **as.factor**, que puede convertir numeros o texto en categorias o _factores_ en el jerga del R.
+
+
+8. Creando subconjuntos.
+
+Cuando escribimos _datosLeidos[,c(5:7)]_ hemos llamada a un subconjunto de los datos. Esto se debe entender así. Las variables que queriamos transformar están en las columnas de la _5_ a la _7_ del objeto _datosLeidos_. 
+
+Si uno escribe _datosLeidos[1,1]_ R devuelve una celda (primera fila, primera columna). Si escribimos _datosLeidos[,4]_ devuelve todas las filas de la columna 4. 
+
+Pero escribir _datosLeidos[,4,5,6,7]_ seria un error. Por lo que hay que **concatenar** los valores cuando hay más de una columna. Esto se hace con el comando **c()**.
+
+El subconjunto pudo haber sido _datosLeidos[,c(5,6,7)]_; pero el comando **c()** acepta _c(5:7)_ como una secuencia.
+
+En general, podemos crear una secuencia así:
+```{r, eval=FALSE}
+1:10
+```
+
+Pero si queremos secuencias mas complejas podemos usar:
+```{r, eval=FALSE}
+seq(3,20,3)
+```
+
+
+
+Si quisieramos ver una variable, podemos seleccionarla usando el simbolo '**$**':
+```{r, eval=FALSE}
+summary(datosLeidos$pagoTotal)
+```
+
+Si queremos lo mismo para dos, podemos usar nombres:
+
+```{r, eval=FALSE}
+summary(datosLeidos[c('pagoTotal','momentoDia')])
+```
+
+...o posiciones:
+
+```{r, eval=FALSE}
+summary(datosLeidos[c(2,7)])
+```
+
 
 
 
