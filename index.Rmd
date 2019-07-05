@@ -108,7 +108,7 @@ ____
 ### 7. Programación de Clases
 
 
-1. Definiciones básicas e Introducción al Programa R
+1. [Definiciones básicas e Introducción al Programa R](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1.html)
 
   * Definiciónes basicas. Estadistica y Toma de Decisiones. Escalas de Medición. Exploración de Datos. Modelos Estadisticos. Preparación de reportes.
   * Presentación del Programa R. 
