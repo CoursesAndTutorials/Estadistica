@@ -1,0 +1,83 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 2: 
+
+## **Exploración de Datos Categóricos**
+
+____
+
+Explorar es el primer paso del análisis estadístico. Es el momento en que, guiados por nuestros conocimientos previos, elegimos de las variables disponibles aquellas que tengan relevancia para nuestro proceso decisional.
+
+La exploración es un proceso para darle soporte estadístico a nuestra intuición. Este proceso se hace según el tipo de variable. En esta sesión veremos la exploración de las variables categóricas.
+
+### Parte 1. **Tablas de Frecuencia**
+
+Las variables categóricas tienen un limitado y pequeño numero de modalidades o niveles. De ahí que ver el conteo de cada una de éstas nos permite conocer la distribución de la variable.
+
+
+
+
+```{r, eval=TRUE}
+LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=775750542&single=true&output=csv'
+mineria=read.csv(LINK,stringsAsFactors = F)
+```
+
+Veamos nuestras variables:
+```{r}
+str(mineria)
+```
+
+La data nos informa sobre el mineral o minerales que se explota en un proyecto minero y la región donde se ubica el proyecto. Trabajemos con los minerales:
+```{r}
+table(mineria$Mineral)
+```
+
+```{r}
+library(knitr)
+count=table(mineria$Mineral)
+share=prop.table(count)
+kable(cbind(count,share),digits = 2)
+```
+
+
+
+2. Gráfico
+```{r}
+library(ggplot2)
+library(scales)
+base = ggplot(data=mineria,aes(x=Mineral))
+bar1 = base + geom_bar()
+bar1 
+```
+
+```{r}
+library(ggplot2)
+base = ggplot(data=mineria,aes(x=Mineral))
+bar1 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
+bar1 
+```
+
+
+```{r}
+bar1 + labs(y="Proporcion",
+            title="Minerales del Peru", 
+            subtitle = "Proyectos actuales",
+            caption = "Fuente: MINEM") + scale_y_continuous(labels = scales::percent)
+```
+
+
+
+
+____
+
+
+Practique y pase a resolver estos [ejercicios](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1_ejercicio.html).
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+
