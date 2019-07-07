@@ -210,13 +210,15 @@ Sabiendo que hay un tipo de tamaño predominantes, podemos calcular el indice de
 
 Esto indica que los accidentes en proyectos de tamaño mediano son los unicos representativos.
 
-* Simetria. Como tenemos la mediana, tiene sentido saber si los valores menores o mayores a estos se distribuyen de manera simetrica (acampanados). Si el coeficiente de asimetría :
+* Simetria. Como tenemos la mediana, tiene sentido saber si los valores menores o mayores a estos se distribuyen de manera simetrica (acampanados). Si el intervalo de confianza del coeficiente de asimetría toca cero, se asume distribución acampanada:
 ```{r}
 Skew(as.numeric(accidentes$Tama),conf.level = 0.95)
 ```
 
 
-* Dispersion
+* Dispersion. Nos indica que tan lejos están los valores que no son la mediana.
+
+
 
 ____
 

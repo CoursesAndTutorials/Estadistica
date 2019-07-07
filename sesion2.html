@@ -605,29 +605,33 @@ Mode(mineria$Mineral)</code></pre>
 <li>Centralidad:
 <ul>
 <li>La moda.</li>
+<li>La mediana. La mediana ya se puede calcular en la escala ordinal y se interpreta como el valor igual o menor al 50% de los casos.</li>
 </ul></li>
 </ul>
-<pre class="r"><code>Mode(accidentes$Tama)</code></pre>
-<pre><code>## [1] &quot;Mediana&quot;</code></pre>
-<pre><code>- La mediana.</code></pre>
 <pre class="r"><code>Median(accidentes$Tama)</code></pre>
 <pre><code>## [1] Mediana
 ## Levels: Pequeña &lt; Mediana &lt; Grande</code></pre>
+<p>De lo anterior, vemos que el 50% de los accidentes alcanzan a los proyectos de mediana envergadura.</p>
 <ul>
 <li>Concentración: Podemos usar el indice de Herfindahl- Hirschman</li>
 </ul>
 <pre class="r"><code>Herfindahl(table(accidentes$Tama))</code></pre>
 <pre><code>## [1] 0.610652</code></pre>
-<p>Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:</p>
+<p>Sabiendo que hay un tipo de tamaño predominantes, podemos calcular el indice de Laakso - Taagepera:</p>
 <pre class="r"><code>1/Herfindahl(table(accidentes$Tama))</code></pre>
 <pre><code>## [1] 1.637594</code></pre>
-<p>Esto indica que hay en efecto 1 minerales mas representativos entre todos los proyectos.</p>
+<p>Esto indica que los accidentes en proyectos de tamaño mediano son los unicos representativos.</p>
 <ul>
-<li><p>Simetria</p></li>
-<li><p>Dispersion</p></li>
+<li>Simetria. Como tenemos la mediana, tiene sentido saber si los valores menores o mayores a estos se distribuyen de manera simetrica (acampanados). Si el intervalo de confianza del coeficiente de asimetría toca cero, se asume distribución acampanada:</li>
+</ul>
+<pre class="r"><code>Skew(as.numeric(accidentes$Tama),conf.level = 0.95)</code></pre>
+<pre><code>##       skew     lwr.ci     upr.ci 
+##  0.3217603 -0.3585471  1.8561705</code></pre>
+<ul>
+<li>Dispersion. Nos indica que tan lejos están los valores que no son la mediana.</li>
 </ul>
 <hr />
-<p>Practique y pase a resolver estos <a href="https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1_ejercicio.html">ejercicios</a>.</p>
+<p>Practique y pase a resolver estos <a href="https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion2_ejercicio.html">ejercicios</a>.</p>
 <hr />
 <p><a href="https://coursesandtutorials.github.io/Estadistica/">Volver al programa del curso</a></p>
 </div>
