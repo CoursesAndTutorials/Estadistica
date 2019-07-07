@@ -24,16 +24,19 @@ mineria=read.csv(LINK,stringsAsFactors = F)
 ```
 
 Veamos nuestras variables:
-```{r}
+```{r, eval=TRUE}
 str(mineria)
 ```
 
 La data nos informa sobre el mineral o minerales que se explota en un proyecto minero y la región donde se ubica el proyecto. Trabajemos con los minerales:
-```{r}
+
+```{r, eval=TRUE}
 table(mineria$Mineral)
 ```
 
-```{r}
+Una mejor manera de producir la tabla para un formato web:
+
+```{r, eval=TRUE}
 library(knitr)
 count=table(mineria$Mineral)
 share=prop.table(count)
@@ -43,7 +46,7 @@ kable(cbind(count,share),digits = 2)
 
 
 2. Gráfico
-```{r}
+```{r, eval=TRUE}
 library(ggplot2)
 library(scales)
 base = ggplot(data=mineria,aes(x=Mineral))
@@ -51,14 +54,14 @@ bar1 = base + geom_bar()
 bar1 
 ```
 
-```{r}
+```{r, eval=TRUE}
 base = ggplot(data=mineria,aes(x=Mineral))
 bar1 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
 bar1 
 ```
 
 
-```{r}
+```{r, eval=TRUE}
 bar1 + labs(y="Proporcion",
             title="Minerales del Peru", 
             subtitle = "Proyectos actuales",
@@ -72,7 +75,7 @@ Las variables anteriores son un ejemplo del tipo **nominal**. Los nombres de los
 
 De las tablas de frecuencia, podemos concluir que el Cobre es el mineral que tiene más proyectos en el país. De todos modos, dado que la variable es nominal, podemos _reacomodar_ el orden de presentación de las modalides usando la función **fct_infreq** de la biblioteca _forcats_:
 
-```{r}
+```{r, eval=TRUE}
 library(forcats)
 
 base = ggplot(data=mineria,aes(x=fct_infreq(Mineral))) # cambio
@@ -88,7 +91,7 @@ bar1 + scale_y_continuous(labels = scales::percent)
 
 Claro está que podemos plantear orden ascendente con **fct_rev** (también de _forcats_):
 
-```{r}
+```{r, eval=TRUE}
 base = ggplot(data=mineria,aes(x=fct_rev(fct_infreq(Mineral)))) # cambio
 bar1 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
 bar1 = bar1 + labs(x="Mineral",
@@ -101,7 +104,7 @@ bar1 + scale_y_continuous(labels = scales::percent)
 
 Veamos otros datos:
 
-```{r}
+```{r, eval=TRUE}
 link2='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1869012038&single=true&output=csv'
 
 accidentes=read.csv(link2, stringsAsFactors = F)
@@ -111,20 +114,20 @@ str(accidentes)
 
 Estos datos nos informan los accidentes que se dieron en proyectos mineros entre los años 2000 al 2006. Veamos la columna _Tama_:
 
-```{r}
+```{r, eval=TRUE}
 table(accidentes$Tama)
 ```
 
 Este es un claro ejemplo de variable **ordinal**. En este caso, un proyecto podría pasar por alguno de estos niveles. Por defecto, _R_ presenta la tabla en orden alfabético. Aquí sí debemos transformar la variable en el tipo que corresponde, y a la vez indicar el orden correcto:
 
-```{r}
+```{r, eval=TRUE}
 library(stats)
 accidentes$Tama=factor(accidentes$Tama,
                        levels=c('Pequeña','Mediana','Grande'),
                        ordered = T)
 ```
 
-```{r}
+```{r, eval=TRUE}
 count=table(accidentes$Tama)
 share=prop.table(count)
 cumulative_Count=cumsum(count)
@@ -133,7 +136,7 @@ kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
 ```
 
 
-```{r}
+```{r, eval=TRUE}
 base = ggplot(data=accidentes,aes(x=Tama))
 bar2 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
 bar2= bar2 + labs(x='Tamaño de Proyecto',
@@ -153,30 +156,67 @@ Aquí si, técnicamente, no podemos reordenar las modalidades. Y del análisis v
 
 * Centralidad: La moda, el valor que más se repite:
 
-```{r}
+```{r, eval=TRUE}
 library(DescTools)
 Mode(mineria$Mineral)
 ```
 
 * Concentración: Este es un coeficiente que permite calificar qué tan buena es la moda, y a la vez qué tanta participación tienen los demás:
-- < 0.01 : indica que la moda no es significativa, las categorias se distribuyen uniformemente.
-- < 0.15 : indica que la moda no es significativa, puede haber multimodalidad.
-- entre 0.15 - 0.25: hay una moda.
-- > 0.25: hay una moda y los demás valores están lejos de 'hacerle pelea'.
+
+  - < 0.01 : indica que la moda no es significativa, las categorias se distribuyen uniformemente.
+  - menos de 0.15 : indica que la moda no es significativa, puede haber multimodalidad.
+  - entre 0.15 - 0.25: hay una moda.
+  - mas de 0.25: hay una moda y los demás valores están lejos de 'hacerle pelea'.
 
 Podemos usar el indice de Herfindahl- Hirschman
 
-```{r}
+```{r, eval=TRUE}
 Herfindahl(table(mineria$Mineral))
 ```
 
-Sabiendo que hay poca comptencia, podemos calcular el indice de Laakso - Taagepera:
+Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:
 
-```{r}
+```{r, eval=TRUE}
 1/Herfindahl(table(mineria$Mineral))
 ```
 
 Esto indica que hay en efecto 2 minerales mas representativos entre todos los proyectos.
+
+
+____
+
+2. **Caso Ordinal**. Las variables en escala nominal tienen las siguientes medidas de resumen:
+
+* Centralidad: 
+  - La moda, el valor que más se repite.
+  - La mediana.
+
+```{r, eval=TRUE}
+Mode(accidentes$Tama)
+```
+
+  
+```{r, eval=TRUE}
+Median(accidentes$Tama)
+```
+
+* Concentración: Podemos usar el indice de Herfindahl- Hirschman
+
+```{r, eval=TRUE}
+Herfindahl(table(accidentes$Tama))
+```
+
+Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:
+
+```{r, eval=TRUE}
+1/Herfindahl(table(accidentes$Tama))
+```
+
+Esto indica que hay en efecto 1 minerales mas representativos entre todos los proyectos.
+
+* Simetria
+
+* Dispersion
 
 ____
 

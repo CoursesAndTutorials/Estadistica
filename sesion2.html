@@ -407,6 +407,7 @@ mineria=read.csv(LINK,stringsAsFactors = F)</code></pre>
 <pre><code>## 
 ##    COBRE DIAMANTE   HIERRO      ORO    PLATA     ZINC 
 ##       18        1        2        7        2        1</code></pre>
+<p>Una mejor manera de producir la tabla para un formato web:</p>
 <pre class="r"><code>library(knitr)
 count=table(mineria$Mineral)
 share=prop.table(count)
@@ -582,22 +583,50 @@ bar2 + scale_y_continuous(labels = scales::percent)</code></pre>
 Mode(mineria$Mineral)</code></pre>
 <pre><code>## [1] &quot;COBRE&quot;</code></pre>
 <ul>
-<li>Concentración: Este es un coeficiente que permite calificar qué tan buena es la moda, y a la vez qué tanta participación tienen los demás:</li>
+<li><p>Concentración: Este es un coeficiente que permite calificar qué tan buena es la moda, y a la vez qué tanta participación tienen los demás:</p>
+<ul>
 <li>&lt; 0.01 : indica que la moda no es significativa, las categorias se distribuyen uniformemente.</li>
-<li>&lt; 0.15 : indica que la moda no es significativa, puede haber multimodalidad.</li>
+<li>menos de 0.15 : indica que la moda no es significativa, puede haber multimodalidad.</li>
 <li>entre 0.15 - 0.25: hay una moda.</li>
-<li><blockquote>
-<p>0.25: hay una moda y los demás valores están lejos de ‘hacerle pelea’.</p>
-</blockquote></li>
+<li>mas de 0.25: hay una moda y los demás valores están lejos de ‘hacerle pelea’.</li>
+</ul></li>
 </ul>
 <p>Podemos usar el indice de Herfindahl- Hirschman</p>
 <pre class="r"><code>Herfindahl(table(mineria$Mineral))</code></pre>
 <pre><code>## [1] 0.3985432</code></pre>
-<p>Sabiendo que hay poca comptencia, podemos calcular el indice de Laakso - Taagepera:</p>
+<p>Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:</p>
 <pre class="r"><code>1/Herfindahl(table(mineria$Mineral))</code></pre>
 <pre><code>## [1] 2.509138</code></pre>
 <p>Esto indica que hay en efecto 2 minerales mas representativos entre todos los proyectos.</p>
 <hr />
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Caso Ordinal</strong>. Las variables en escala nominal tienen las siguientes medidas de resumen:</li>
+</ol>
+<ul>
+<li>Centralidad:
+<ul>
+<li>La moda, el valor que más se repite.</li>
+<li>La mediana.</li>
+</ul></li>
+</ul>
+<pre class="r"><code>Mode(accidentes$Tama)</code></pre>
+<pre><code>## [1] &quot;Mediana&quot;</code></pre>
+<pre class="r"><code>Median(accidentes$Tama)</code></pre>
+<pre><code>## [1] Mediana
+## Levels: Pequeña &lt; Mediana &lt; Grande</code></pre>
+<ul>
+<li>Concentración: Podemos usar el indice de Herfindahl- Hirschman</li>
+</ul>
+<pre class="r"><code>Herfindahl(table(accidentes$Tama))</code></pre>
+<pre><code>## [1] 0.610652</code></pre>
+<p>Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:</p>
+<pre class="r"><code>1/Herfindahl(table(accidentes$Tama))</code></pre>
+<pre><code>## [1] 1.637594</code></pre>
+<p>Esto indica que hay en efecto 1 minerales mas representativos entre todos los proyectos.</p>
+<ul>
+<li><p>Simetria</p></li>
+<li><p>Dispersion ____</p></li>
+</ul>
 <p>Practique y pase a resolver estos <a href="https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1_ejercicio.html">ejercicios</a>.</p>
 <hr />
 <p><a href="https://coursesandtutorials.github.io/Estadistica/">Volver al programa del curso</a></p>
