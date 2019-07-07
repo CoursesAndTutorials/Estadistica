@@ -45,7 +45,7 @@ kable(cbind(count,share),digits = 2)
 
 
 
-2. Gráfico
+### Parte 2. Gráficos
 ```{r, eval=TRUE}
 library(ggplot2)
 library(scales)
@@ -150,7 +150,7 @@ bar2 + scale_y_continuous(labels = scales::percent)
 Aquí si, técnicamente, no podemos reordenar las modalidades. Y del análisis visual, podemos ver que los accidentes son más frecuentes en proyectos de mediana envergadura.
 
 
-### Parte 2. **Medidas de resumen**
+### Parte 3. **Medidas de resumen**
 
 1. **Caso Nominal**. Las variables en escala nominal tienen las siguientes medidas de resumen:
 
@@ -161,20 +161,19 @@ library(DescTools)
 Mode(mineria$Mineral)
 ```
 
-* Concentración: Este es un coeficiente que permite calificar qué tan buena es la moda, y a la vez qué tanta participación tienen los demás:
+* Concentración: Este es un coeficiente que permite calificar qué tan buena es la moda, y a la vez qué tanta participación tienen los demás.Podemos usar el indice de Herfindahl- Hirschman que se interpreta así:
 
-  - < 0.01 : indica que la moda no es significativa, las categorias se distribuyen uniformemente.
-  - menos de 0.15 : indica que la moda no es significativa, puede haber multimodalidad.
+  - menor que 0.01 : indica que la moda no es significativa, las categorias se distribuyen uniformemente.
+  - menor que 0.15 : indica que la moda no es significativa, puede haber multimodalidad.
   - entre 0.15 - 0.25: hay una moda.
   - mas de 0.25: hay una moda y los demás valores están lejos de 'hacerle pelea'.
 
-Podemos usar el indice de Herfindahl- Hirschman
 
 ```{r, eval=TRUE}
 Herfindahl(table(mineria$Mineral))
 ```
 
-Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:
+Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera, para saber cuantas modalidade o niveles tienen presencia efectiva:
 
 ```{r, eval=TRUE}
 1/Herfindahl(table(mineria$Mineral))
@@ -188,17 +187,14 @@ ____
 2. **Caso Ordinal**. Las variables en escala nominal tienen las siguientes medidas de resumen:
 
 * Centralidad: 
-  - La moda, el valor que más se repite.
-  - La mediana.
-
-```{r, eval=TRUE}
-Mode(accidentes$Tama)
-```
-
+  - La moda.
+  - La mediana. La mediana ya se puede calcular en la escala ordinal y se interpreta como el valor  igual o menor al 50% de los casos.
   
 ```{r, eval=TRUE}
 Median(accidentes$Tama)
 ```
+
+De lo anterior, vemos que el 50% de los accidentes alcanzan a los proyectos de mediana envergadura.
 
 * Concentración: Podemos usar el indice de Herfindahl- Hirschman
 
@@ -206,22 +202,26 @@ Median(accidentes$Tama)
 Herfindahl(table(accidentes$Tama))
 ```
 
-Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagepera:
+Sabiendo que hay un tipo de tamaño predominantes, podemos calcular el indice de Laakso - Taagepera:
 
 ```{r, eval=TRUE}
 1/Herfindahl(table(accidentes$Tama))
 ```
 
-Esto indica que hay en efecto 1 minerales mas representativos entre todos los proyectos.
+Esto indica que los accidentes en proyectos de tamaño mediano son los unicos representativos.
 
-* Simetria
+* Simetria. Como tenemos la mediana, tiene sentido saber si los valores menores o mayores a estos se distribuyen de manera simetrica (acampanados). Si el coeficiente de asimetría :
+```{r}
+Skew(as.numeric(accidentes$Tama),conf.level = 0.95)
+```
+
 
 * Dispersion
 
 ____
 
 
-Practique y pase a resolver estos [ejercicios](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion1_ejercicio.html).
+Practique y pase a resolver estos [ejercicios](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion2_ejercicio.html).
 
 ____
 
