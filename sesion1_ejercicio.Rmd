@@ -25,6 +25,7 @@ b. Una vez que el archivo esté en GoogleDrive, ábralo como GoogleSheet.
 c. Guardelo como documento de Google.
 d. Verifique la región por defecto de GoogleSheet, elija MEXICO como default.
 ![](pics/regional.png)
+
 e. Publique el archivo como CSV y copie el **link** que se genera.
 ![](pics/publicar.png)
 
