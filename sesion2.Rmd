@@ -14,9 +14,9 @@ Explorar es el primer paso del análisis estadístico. Es el momento en que, gui
 
 La exploración es un proceso para darle soporte estadístico a nuestra intuición. Este proceso se hace según el tipo de variable. En esta sesión veremos la exploración de las variables categóricas.
 
-### Parte 1. **Tablas de Frecuencia**
+### Parte 1. **Variable Nominales**
 
-Las variables categóricas tienen un limitado y pequeño numero de modalidades o niveles. De ahí que ver el conteo de cada una de éstas nos permite conocer la distribución de la variable.
+Las variables categóricas tienen un limitado y pequeño número de modalidades o niveles. De ahí que ver el conteo de cada una de éstas nos permite conocer la distribución de la variable.
 
 ```{r, eval=TRUE}
 LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=775750542&single=true&output=csv'
@@ -28,6 +28,7 @@ Veamos nuestras variables:
 str(mineria)
 ```
 
+**1. Tablas de Frecuencia**
 La data nos informa sobre el mineral o minerales que se explota en un proyecto minero y la región donde se ubica el proyecto. Trabajemos con los minerales:
 
 ```{r, eval=TRUE}
@@ -45,33 +46,56 @@ kable(cbind(count,share),digits = 2)
 
 
 
-### Parte 2. Gráficos
+**2. Tablas de Frecuencia**
+
+El gráfico que se debe usar con las variables nominales es el de barras. R tiene muchas maneras de producir gráficas. Instalemos la librería _ggplot2_ para usar su estilo de producción. La instalación se hace desde el menú: Tools/Install Packages.
+
+Una vez instala una biblioteca de funciones, debemos activarla con el comando **library**:
+
 ```{r, eval=TRUE}
 library(ggplot2)
-library(scales)
+```
+
+Cuando usamos ggplot, los gráfico se hacen por 'capas':
+
+```{r}
+# 1. Creamos la base:
 base = ggplot(data=mineria,aes(x=Mineral))
+
+# 2. Le añadimos el tipo de gráfico (o geometría a esa base). 
+#    Note que guarda el grafico en un objeto.
 bar1 = base + geom_bar()
+
+# 3. Muestro objeto:
 bar1 
 ```
 
+Si deseamos procentajes, añadimos a la base algo diferente:
 ```{r, eval=TRUE}
-base = ggplot(data=mineria,aes(x=Mineral))
-bar1 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
-bar1 
+bar1p = base + geom_bar(aes(y = (..count..)/sum(..count..)))
+bar1p 
+```
+
+Si deseamos porcentajes, podemos añadir más capas al gráfico actual:
+
+```{r, eval=TRUE}
+library(scales)
+
+bar1p = bar1p + scale_y_continuous(labels = scales::percent)
+bar1p
+```
+
+Y más capas:
+
+```{r}
+bar1p + labs( y="Proporcion",
+              title="Minerales del Peru",
+              subtitle = "Proyectos actuales",
+              caption = "Fuente: MINEM") 
 ```
 
 
-```{r, eval=TRUE}
-bar1 + labs(y="Proporcion",
-            title="Minerales del Peru", 
-            subtitle = "Proyectos actuales",
-            caption = "Fuente: MINEM") + scale_y_continuous(labels = scales::percent)
-```
-
-
-
-
-Las variables anteriores son un ejemplo del tipo **nominal**. Los nombres de los minerales mostrados no tienen un orden más allá de lo alfabético. Lo que es más, no es que un mineral pueda pasar por todos esos estados, es simplemente su tipo. Cuando trabajamos con nominales, la mayoría de las veces no es necesario transformar la columna de tipo texto en categórica (o _factor_ como se le denomina en _R_).
+La variable es de tipo **nominal** pues los nombres de los minerales mostrados no tienen un orden más allá de lo alfabético. Lo que es más, no es que un mineral pueda pasar por todos esos estados, es simplemente su tipo. Cuando trabajamos con nominales, la mayoría de las veces no es necesario transformar la columna de tipo texto en categórica (o _factor_ como se le denomina en _R_).
 
 De las tablas de frecuencia, podemos concluir que el Cobre es el mineral que tiene más proyectos en el país. De todos modos, dado que la variable es nominal, podemos _reacomodar_ el orden de presentación de las modalides usando la función **fct_infreq** de la biblioteca _forcats_:
 
@@ -102,59 +126,12 @@ bar1 = bar1 + labs(x="Mineral",
 bar1 + scale_y_continuous(labels = scales::percent)
 ```
 
-Veamos otros datos:
+**3. Medidas de resumen**
 
-```{r, eval=TRUE}
-link2='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1869012038&single=true&output=csv'
+Las variables en escala nominal tienen las siguientes medidas de resumen:
 
-accidentes=read.csv(link2, stringsAsFactors = F)
-
-str(accidentes)
-```
-
-Estos datos nos informan los accidentes que se dieron en proyectos mineros entre los años 2000 al 2006. Veamos la columna _Tama_:
-
-```{r, eval=TRUE}
-table(accidentes$Tama)
-```
-
-Este es un claro ejemplo de variable **ordinal**. En este caso, un proyecto podría pasar por alguno de estos niveles. Por defecto, _R_ presenta la tabla en orden alfabético. Aquí sí debemos transformar la variable en el tipo que corresponde, y a la vez indicar el orden correcto:
-
-```{r, eval=TRUE}
-library(stats)
-accidentes$Tama=factor(accidentes$Tama,
-                       levels=c('Pequeña','Mediana','Grande'),
-                       ordered = T)
-```
-
-```{r, eval=TRUE}
-count=table(accidentes$Tama)
-share=prop.table(count)
-cumulative_Count=cumsum(count)
-cumulative_Share=cumsum(share)
-kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
-```
-
-
-```{r, eval=TRUE}
-base = ggplot(data=accidentes,aes(x=Tama))
-bar2 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
-bar2= bar2 + labs(x='Tamaño de Proyecto',
-                  y="Proporcion",
-                  title="Accidentes en proyectos mineros", 
-                  subtitle = "Años: 2000 al 2006",
-                  caption = "Fuente: MINEM") 
-bar2 + scale_y_continuous(labels = scales::percent)
-```
-
-Aquí si, técnicamente, no podemos reordenar las modalidades. Y del análisis visual, podemos ver que los accidentes son más frecuentes en proyectos de mediana envergadura.
-
-
-### Parte 3. **Medidas de resumen**
-
-1. **Caso Nominal**. Las variables en escala nominal tienen las siguientes medidas de resumen:
-
-* Centralidad: La moda, el valor que más se repite:
+* Centralidad: 
+  - La moda, el valor que más se repite:
 
 ```{r, eval=TRUE}
 library(DescTools)
@@ -181,10 +158,70 @@ Sabiendo que hay poca competencia, podemos calcular el indice de Laakso - Taagep
 
 Esto indica que hay en efecto 2 minerales mas representativos entre todos los proyectos.
 
+_____
 
-____
+### Parte 2. Variables Ordinales
 
-2. **Caso Ordinal**. Las variables en escala nominal tienen las siguientes medidas de resumen:
+
+Veamos otros datos:
+
+```{r, eval=TRUE}
+link2='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1869012038&single=true&output=csv'
+
+accidentes=read.csv(link2, stringsAsFactors = F)
+
+str(accidentes)
+```
+
+Estos datos nos informan los accidentes que se dieron en proyectos mineros entre los años 2000 al 2006. 
+
+**1. Tabla de Frecuencia**
+
+Veamos la columna _Tama_:
+
+```{r, eval=TRUE}
+table(accidentes$Tama)
+```
+
+Este es un claro ejemplo de variable **ordinal**. En este caso, un proyecto podría pasar por alguno de estos niveles. Por defecto, _R_ presenta la tabla en orden alfabético. Aquí sí debemos transformar la variable en el tipo que corresponde, y a la vez indicar el orden correcto:
+
+```{r, eval=TRUE}
+library(stats)
+accidentes$Tama=factor(accidentes$Tama,
+                       levels=c('Pequeña','Mediana','Grande'),
+                       ordered = T)
+```
+
+La tabla de frecuencia de variables ordinales puede tener frecuencias acumuladas:
+```{r, eval=TRUE}
+count=table(accidentes$Tama)
+share=prop.table(count)
+cumulative_Count=cumsum(count)
+cumulative_Share=cumsum(share)
+kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
+```
+
+
+**2. Gráficos**
+
+De igual manera, podemos utilizar el gráfico de barras:
+
+```{r, eval=TRUE}
+base = ggplot(data=accidentes,aes(x=Tama))
+bar2 = base + geom_bar(aes(y = (..count..)/sum(..count..)))
+bar2= bar2 + labs(x='Tamaño de Proyecto',
+                  y="Proporcion",
+                  title="Accidentes en proyectos mineros", 
+                  subtitle = "Años: 2000 al 2006",
+                  caption = "Fuente: MINEM") 
+bar2 + scale_y_continuous(labels = scales::percent)
+```
+
+Aquí sí, técnicamente, no podemos reordenar las modalidades. Y del análisis visual, podemos ver que los accidentes son más frecuentes en proyectos de mediana envergadura.
+
+
+
+**3. Medidas de Resumen**
 
 * Centralidad: 
   - La moda.
