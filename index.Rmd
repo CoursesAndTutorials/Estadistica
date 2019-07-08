@@ -115,7 +115,7 @@ ____
   * Uso de repositorios en la nube de GoogleDrive. 
   * Uso de RStudio Cloud. Creación y Publicación de Notebooks
       
-2. [Exploración de Datos Categóricos](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion2.html)
+2. Exploración de Datos Categóricos
 
 * Tablas de Frecuencia
 * Medidas de resumen. Posición central. Simetría. Dispersión

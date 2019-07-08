@@ -626,10 +626,13 @@ Mode(mineria$Mineral)</code></pre>
 </ul>
 <pre class="r"><code>Skew(as.numeric(accidentes$Tama),conf.level = 0.95)</code></pre>
 <pre><code>##       skew     lwr.ci     upr.ci 
-##  0.3217603 -0.3585471  1.8561705</code></pre>
+##  0.3217603 -0.3555081  1.8561705</code></pre>
 <ul>
-<li>Dispersion. Nos indica que tan lejos están los valores que no son la mediana.</li>
+<li>Dispersion. Nos indica que tan lejos están los valores que no son la mediana. La medida de dispersión comunmente utilizada para ordinales es la distancia interquartil (IQR):</li>
 </ul>
+<pre class="r"><code>stats::IQR(as.numeric(accidentes$Tama))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>El resultado nos indica que no hay distancia entre el valor que está en el tercer y primer quartil. Es decir, si la mediana es <em>proyectos medianos</em>, el primer cuartil y el tercer cuartil son el mismo valor. De ahi que no hay dispersión.</p>
 <hr />
 <p>Practique y pase a resolver estos <a href="https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion2_ejercicio.html">ejercicios</a>.</p>
 <hr />

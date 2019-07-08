@@ -12,15 +12,15 @@ ____
 
 ### Parte 1. **Definiciones Básicas**
 
-El estudio de la estadística trae consigo el familiarizarse con una serie de conceptos:
+El estudio de la estadística trae consigo la necesidad de familiarizarse con una serie de conceptos:
 
-* __POBLACION__. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen algo en común. Eso en común tiene variación (no es una constante), lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo. 
+* __POBLACION__. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen ciertas caracteríticas comunes pero variables (no son constantes). Esa variabilidad es lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo. 
 
-* __MUESTRA__. La muestra es parte de la población. Se habla de muestra representativa si esta es producto de un proceso que ha respetado principios de selección probabilísticos; de caso contrario, se le denomina muestra de coveniencia. Sólo la representativa permite generalización.
+* __MUESTRA__. La muestra es parte de la población. Se habla de muestra representativa si esta es producto de un proceso que ha respetado principios de selección probabilísticos; de caso contrario, se le denomina muestra de conveniencia. Sólo la representativa permite generalización.
 
-* __PARAMETRO y ESTADIGRAFO__. Los valores que describen una población se denominan parámetros. Siendo las poblaciones tan grandes, se suele usar la muestra para estimar los parámetros desde la muestra. Los valores que describen la muestra son los estadígrafos.
+* __PARAMETRO y ESTADIGRAFO__. Los valores que describen una población se denominan parámetros. Siendo las poblaciones tan grandes, se suele usar la muestra para estimar los parámetros. Los valores que describen la muestra son los estadígrafos.
 
-* __TIPO de dato__. Los datos son de diverso tipo. Los programas de análisis estadístico no siempre identifican de manera adecuada esos tipos. Si tomamos una hoja de calculo como referencia, una columna debe tener un sólo tipo de dato. En general los tipos se clasifican en:
+* __TIPO de dato__. Los datos son de diverso tipo. Los programas de análisis estadístico no siempre identifican de manera adecuada esos tipos. Si tomamos una hoja de cálculo como referencia, una columna debe tener un sólo tipo de dato. En general los tipos se clasifican en:
 
   - Texto o Cadena de caracteres.
   - Categorias Nominales.
@@ -31,21 +31,33 @@ El estudio de la estadística trae consigo el familiarizarse con una serie de co
 
 Identificar cada tipo de manera correcta es trabajo del analista. Una vez identificado, se puede proceder a elegir la técnica adecuada para su tratamiento.
 
-No todas la columnas son variables de estudio. Algunas de ellas son los __identificadores__, valores que sirven para identificar cada fila o unidad de análisis.
+No todas la columnas son variables de estudio. Algunas de ellas son los __identificadores__, valores que sirven para identificar cada fila o unidad de análisis; estos valores suelen ser de tipo _texto_.
 
 
 ### Parte 2. **Uso del R**
 
 R es un poderoso y amigable programa para el análisis estadístico, tanto para usuarios básicos como avanzados.
 
-Cuando los datos están '_limpios_', y se sabe su ubicación, R recupera el archivo rápidamente:
+En nuestro curso usaremos RStudio Cloud, una versión de R que puede utilizarse desde la web sin necesidad de instalar nada en la computadora. Cree una cuenta, o use una cuenta de gmail, para acceder a él. El link es [https://rstudio.cloud/](https://rstudio.cloud/).
+
+Nuestro primer paso será ingresar a RStudio Cloud para crear un proyecto nuevo, y dentro de este proyecto escribiremos códigos en un **Notebook** (estas clases se han hecho usándolos).
+
+Para mostrar lo básico de R, usare un archivo que tengo en GoogleDrive. R puede abrir archivos que estén en GoogleDrive en formato CSV (valores separados por comas). Uno debe usar el link con el que Google puede publicar esos archivos.
+
+Para este caso, tengo el link entre comillas simples y lo asigno a un **objeto** de R que se llamrá _LINK_. Los objetos de R sirven para guardar valores simple o compuestos, y uno decide que nombre darles, mientras que no se usan caracteres especiales ni comiencen con un número.
 
 ```{r, eval=FALSE}
 LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vRktYFfrbSdgkIx1G0q9U7dcY_wZ4MhbckBL_4nSR-JC_3pvrvPi273SiQFdgiMXZADQt45vFu7ggAu/pub?gid=1023260375&single=true&output=csv'
+```
+
+El objeto solo guarda el texto del link, no la data. Ese objeto lo usaré en una función de R:
+
+```{r, eval=FALSE}
 datosLeidos=read.csv(LINK,stringsAsFactors = F)
 ```
 
-Toda la información ha sido '_transferida_' usando el simbolo **=** (también se puede utilizar **<-**) a **datosLeidos**. El comando **read.csv** se utilizó pues corresponde al tipo de archivo original en _GoogleDrive_. Un archivo de este tipo es similar a un archivo en Excel, de hecho puedes abrirlo en Excel fácilmente.
+
+Toda la información ha sido '_transferida_' usando el simbolo **=** (también se puede utilizar **<-**) a otro objeto: **datosLeidos**. El comando **read.csv** se utilizó pues corresponde al tipo de archivo original en _GoogleDrive_. Un archivo de este tipo es similar a un archivo en Excel, de hecho puedes abrirlo en Excel fácilmente.
 
 Veamos algunas funciones básicas de R:
 
@@ -55,27 +67,30 @@ Veamos algunas funciones básicas de R:
 names(datosLeidos)
 ```
 
-2. Ver las primeras filas (6):
+2. Ver las primeras filas (6 filas por defecto):
 ```{r, eval=FALSE}
 head(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas
 ```
 
-3. Ver las ultimas filas:
+3. Ver las últimas filas (6 filas por defecto):
 ```{r, eval=FALSE}
-tail(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas
+tail(datosLeidos) # tail(datosLeidos,10) daria 10 últimas
 ```
 
-4. Renombrar las variables:
+4. Renombrar las variables: Si necesitas que las columnas lleven otro nombre puedes darselo. Los nombres actuales están en inglés, y todas las columnas, menos la primera y la cuarta no se entienden. Aqui están los pasos que seguiré:
+
 ```{r, eval=FALSE}
+# posicion de las columnas que quiero cambiar
+posicionesCambiar=c(2,3,5,6,7,8) 
 
-posicionesCambiar=c(2,3,5,6,7,8) # posicion de las columnas
-
+# nombres a utilizar
 nuevosNombres=c('pagoTotal','propina','zonaFumador','dia','momentoDia', 'tamañoGrupo')
 
+# renombrando: reemplazo valores
 names(datosLeidos)[posicionesCambiar]=nuevosNombres
 ```
 
-El comando _c()_  es muy utilizado pues sirve para concatenar valores en un **vector**. Justo hemos visto cómo sirve para crear dos vectores. 
+El comando _c()_  es muy utilizado pues sirve para concatenar valores en un **vector**. Justo hemos visto cómo sirve para crear dos vectores de datos _posicionesCambiar_ y _nuevosNombres_. Note el uso de los 'brackets': **[ ]**. Con ellos indicamos qué elementos cambiar. 
 
 5. Identificar Tipo de datos:
 
@@ -83,9 +98,10 @@ El comando _c()_  es muy utilizado pues sirve para concatenar valores en un **ve
 str(datosLeidos)
 ```
 
-Un _int_ almacena numeros sin decimales, un _num_ numeros con decimales, y _chr_ almacena texto.
+Un _int_ almacena numeros sin decimales, un _num_ numeros con decimales, y _chr_ almacena texto. R tiene además los tipos _factor_ y _ordered_ para las nominales y ordinales.
 
 6. Resumen por variable:
+
 ```{r, eval=FALSE}
 summary(datosLeidos)
 ```
@@ -102,7 +118,7 @@ datosLeidos$sex=as.factor(datosLeidos$sex)
 summary(datosLeidos)
 ```
 
-Hice sólo un cambio, y R me entrega para esa variable el conteo de cada _modalidad_ o categoría.
+Hice sólo un cambio, y R me entrega para esa variable el conteo de cada _modalidad_ o _nivel_.
 
 ```{r, eval=FALSE}
 # para varios
@@ -114,8 +130,6 @@ datosLeidos[,c(5:7)]=lapply(datosLeidos[,c(5:7)], as.factor)
 summary(datosLeidos)
 
 ```
-
-
 
 
 Note el uso de la función **lapply**, que aplica una función a varias columnas. La función a aplicar es **as.factor**, que puede convertir numeros o texto en categorias o _factores_ en el jerga del R.

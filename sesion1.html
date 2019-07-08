@@ -391,12 +391,12 @@ $(document).ready(function () {
 <hr />
 <div id="parte-1.-definiciones-basicas" class="section level3">
 <h3>Parte 1. <strong>Definiciones Básicas</strong></h3>
-<p>El estudio de la estadística trae consigo el familiarizarse con una serie de conceptos:</p>
+<p>El estudio de la estadística trae consigo la necesidad de familiarizarse con una serie de conceptos:</p>
 <ul>
-<li><p><strong>POBLACION</strong>. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen algo en común. Eso en común tiene variación (no es una constante), lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo.</p></li>
-<li><p><strong>MUESTRA</strong>. La muestra es parte de la población. Se habla de muestra representativa si esta es producto de un proceso que ha respetado principios de selección probabilísticos; de caso contrario, se le denomina muestra de coveniencia. Sólo la representativa permite generalización.</p></li>
-<li><p><strong>PARAMETRO y ESTADIGRAFO</strong>. Los valores que describen una población se denominan parámetros. Siendo las poblaciones tan grandes, se suele usar la muestra para estimar los parámetros desde la muestra. Los valores que describen la muestra son los estadígrafos.</p></li>
-<li><p><strong>TIPO de dato</strong>. Los datos son de diverso tipo. Los programas de análisis estadístico no siempre identifican de manera adecuada esos tipos. Si tomamos una hoja de calculo como referencia, una columna debe tener un sólo tipo de dato. En general los tipos se clasifican en:</p>
+<li><p><strong>POBLACION</strong>. Todos los estudios estadísticos se hacen tratando de aproximarse al conocimiento de una población. En ese sentido, se asume que los miembros de una población tienen ciertas caracteríticas comunes pero variables (no son constantes). Esa variabilidad es lo que amerita el estudio estadístico. Durante el estudio estadístico, se puede encontrar que la población no se definió bien, lo que perjudicó el proceso de muestreo.</p></li>
+<li><p><strong>MUESTRA</strong>. La muestra es parte de la población. Se habla de muestra representativa si esta es producto de un proceso que ha respetado principios de selección probabilísticos; de caso contrario, se le denomina muestra de conveniencia. Sólo la representativa permite generalización.</p></li>
+<li><p><strong>PARAMETRO y ESTADIGRAFO</strong>. Los valores que describen una población se denominan parámetros. Siendo las poblaciones tan grandes, se suele usar la muestra para estimar los parámetros. Los valores que describen la muestra son los estadígrafos.</p></li>
+<li><p><strong>TIPO de dato</strong>. Los datos son de diverso tipo. Los programas de análisis estadístico no siempre identifican de manera adecuada esos tipos. Si tomamos una hoja de cálculo como referencia, una columna debe tener un sólo tipo de dato. En general los tipos se clasifican en:</p>
 <ul>
 <li>Texto o Cadena de caracteres.</li>
 <li>Categorias Nominales.</li>
@@ -409,42 +409,49 @@ $(document).ready(function () {
 </ul></li>
 </ul>
 <p>Identificar cada tipo de manera correcta es trabajo del analista. Una vez identificado, se puede proceder a elegir la técnica adecuada para su tratamiento.</p>
-<p>No todas la columnas son variables de estudio. Algunas de ellas son los <strong>identificadores</strong>, valores que sirven para identificar cada fila o unidad de análisis.</p>
+<p>No todas la columnas son variables de estudio. Algunas de ellas son los <strong>identificadores</strong>, valores que sirven para identificar cada fila o unidad de análisis; estos valores suelen ser de tipo <em>texto</em>.</p>
 </div>
 <div id="parte-2.-uso-del-r" class="section level3">
 <h3>Parte 2. <strong>Uso del R</strong></h3>
 <p>R es un poderoso y amigable programa para el análisis estadístico, tanto para usuarios básicos como avanzados.</p>
-<p>Cuando los datos están ‘<em>limpios</em>’, y se sabe su ubicación, R recupera el archivo rápidamente:</p>
-<pre class="r"><code>LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vRktYFfrbSdgkIx1G0q9U7dcY_wZ4MhbckBL_4nSR-JC_3pvrvPi273SiQFdgiMXZADQt45vFu7ggAu/pub?gid=1023260375&amp;single=true&amp;output=csv'
-datosLeidos=read.csv(LINK,stringsAsFactors = F)</code></pre>
-<p>Toda la información ha sido ‘<em>transferida</em>’ usando el simbolo <strong>=</strong> (también se puede utilizar <strong>&lt;-</strong>) a <strong>datosLeidos</strong>. El comando <strong>read.csv</strong> se utilizó pues corresponde al tipo de archivo original en <em>GoogleDrive</em>. Un archivo de este tipo es similar a un archivo en Excel, de hecho puedes abrirlo en Excel fácilmente.</p>
+<p>En nuestro curso usaremos RStudio Cloud, una versión de R que puede utilizarse desde la web sin necesidad de instalar nada en la computadora. Cree una cuenta, o use una cuenta de gmail, para acceder a él. El link es <a href="https://rstudio.cloud/">https://rstudio.cloud/</a>.</p>
+<p>Nuestro primer paso será ingresar a RStudio Cloud para crear un proyecto nuevo, y dentro de este proyecto escribiremos códigos en un <strong>Notebook</strong> (estas clases se han hecho usándolos).</p>
+<p>Para mostrar lo básico de R, usare un archivo que tengo en GoogleDrive. R puede abrir archivos que estén en GoogleDrive en formato CSV (valores separados por comas). Uno debe usar el link con el que Google puede publicar esos archivos.</p>
+<p>Para este caso, tengo el link entre comillas simples y lo asigno a un <strong>objeto</strong> de R que se llamrá <em>LINK</em>. Los objetos de R sirven para guardar valores simple o compuestos, y uno decide que nombre darles, mientras que no se usan caracteres especiales ni comiencen con un número.</p>
+<pre class="r"><code>LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vRktYFfrbSdgkIx1G0q9U7dcY_wZ4MhbckBL_4nSR-JC_3pvrvPi273SiQFdgiMXZADQt45vFu7ggAu/pub?gid=1023260375&amp;single=true&amp;output=csv'</code></pre>
+<p>El objeto solo guarda el texto del link, no la data. Ese objeto lo usaré en una función de R:</p>
+<pre class="r"><code>datosLeidos=read.csv(LINK,stringsAsFactors = F)</code></pre>
+<p>Toda la información ha sido ‘<em>transferida</em>’ usando el simbolo <strong>=</strong> (también se puede utilizar <strong>&lt;-</strong>) a otro objeto: <strong>datosLeidos</strong>. El comando <strong>read.csv</strong> se utilizó pues corresponde al tipo de archivo original en <em>GoogleDrive</em>. Un archivo de este tipo es similar a un archivo en Excel, de hecho puedes abrirlo en Excel fácilmente.</p>
 <p>Veamos algunas funciones básicas de R:</p>
 <ol style="list-style-type: decimal">
 <li>Saber los nombres de las variables:</li>
 </ol>
 <pre class="r"><code>names(datosLeidos)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Ver las primeras filas (6):</li>
+<li>Ver las primeras filas (6 filas por defecto):</li>
 </ol>
 <pre class="r"><code>head(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Ver las ultimas filas:</li>
+<li>Ver las últimas filas (6 filas por defecto):</li>
 </ol>
-<pre class="r"><code>tail(datosLeidos) # head(datosLeidos,10) daria 10 primeras filas</code></pre>
+<pre class="r"><code>tail(datosLeidos) # tail(datosLeidos,10) daria 10 últimas</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>Renombrar las variables:</li>
+<li>Renombrar las variables: Si necesitas que las columnas lleven otro nombre puedes darselo. Los nombres actuales están en inglés, y todas las columnas, menos la primera y la cuarta no se entienden. Aqui están los pasos que seguiré:</li>
 </ol>
-<pre class="r"><code>posicionesCambiar=c(2,3,5,6,7,8) # posicion de las columnas
+<pre class="r"><code># posicion de las columnas que quiero cambiar
+posicionesCambiar=c(2,3,5,6,7,8) 
 
+# nombres a utilizar
 nuevosNombres=c('pagoTotal','propina','zonaFumador','dia','momentoDia', 'tamañoGrupo')
 
+# renombrando: reemplazo valores
 names(datosLeidos)[posicionesCambiar]=nuevosNombres</code></pre>
-<p>El comando <em>c()</em> es muy utilizado pues sirve para concatenar valores en un <strong>vector</strong>. Justo hemos visto cómo sirve para crear dos vectores.</p>
+<p>El comando <em>c()</em> es muy utilizado pues sirve para concatenar valores en un <strong>vector</strong>. Justo hemos visto cómo sirve para crear dos vectores de datos <em>posicionesCambiar</em> y <em>nuevosNombres</em>. Note el uso de los ‘brackets’: <strong>[ ]</strong>. Con ellos indicamos qué elementos cambiar.</p>
 <ol start="5" style="list-style-type: decimal">
 <li>Identificar Tipo de datos:</li>
 </ol>
 <pre class="r"><code>str(datosLeidos)</code></pre>
-<p>Un <em>int</em> almacena numeros sin decimales, un <em>num</em> numeros con decimales, y <em>chr</em> almacena texto.</p>
+<p>Un <em>int</em> almacena numeros sin decimales, un <em>num</em> numeros con decimales, y <em>chr</em> almacena texto. R tiene además los tipos <em>factor</em> y <em>ordered</em> para las nominales y ordinales.</p>
 <ol start="6" style="list-style-type: decimal">
 <li>Resumen por variable:</li>
 </ol>
@@ -458,7 +465,7 @@ datosLeidos$sex=as.factor(datosLeidos$sex)
 
 # veamos:
 summary(datosLeidos)</code></pre>
-<p>Hice sólo un cambio, y R me entrega para esa variable el conteo de cada <em>modalidad</em> o categoría.</p>
+<p>Hice sólo un cambio, y R me entrega para esa variable el conteo de cada <em>modalidad</em> o <em>nivel</em>.</p>
 <pre class="r"><code># para varios
 
 # [filas,columnas]

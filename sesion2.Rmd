@@ -216,7 +216,12 @@ Skew(as.numeric(accidentes$Tama),conf.level = 0.95)
 ```
 
 
-* Dispersion. Nos indica que tan lejos están los valores que no son la mediana.
+* Dispersion. Nos indica que tan lejos están los valores que no son la mediana. La medida de dispersión comunmente utilizada para ordinales es la distancia interquartil (IQR):
+```{r}
+stats::IQR(as.numeric(accidentes$Tama))
+```
+
+El resultado nos indica que no hay distancia entre el valor que está en el tercer y primer quartil. Es decir, si la mediana es _proyectos medianos_, el primer cuartil y el tercer cuartil son el mismo valor. De ahi que no hay dispersión.  
 
 
 
