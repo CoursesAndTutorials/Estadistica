@@ -16,12 +16,12 @@ Este archivo contiene información de proyectos de exploración minera para el 2
 
 1. Sabiendo que el link a esa data es:
 
-https://docs.google.com/spreadsheets/d/e/2PACX-1vSaZQ88MJaKumH0inYTW5mWZhQmcfUhbxT8is0MbX26Ypj8JBnYv58muKhqzDt37UF2tpJxLywNe7Ct/pub?gid=130298120&single=true&output=csv
+https://docs.google.com/spreadsheets/d/e/2PACX-1vSaZQ88MJaKumH0inYTW5mWZhQmcfUhbxT8is0MbX26Ypj8JBnYv58muKhqzDt37UF2tpJxLywNe7Ct/pub?gid=130298120&single=FALSE&output=csv
 
 Traiga tal archivo a RStudio usando el comando **read.csv**, dele nombre _data2018_ al objeto que recibe la data:
 
-```{r, echo=TRUE, eval=TRUE}
-link="https://docs.google.com/spreadsheets/d/e/2PACX-1vSaZQ88MJaKumH0inYTW5mWZhQmcfUhbxT8is0MbX26Ypj8JBnYv58muKhqzDt37UF2tpJxLywNe7Ct/pub?gid=130298120&single=true&output=csv"
+```{r, echo=FALSE, eval=FALSE}
+link="https://docs.google.com/spreadsheets/d/e/2PACX-1vSaZQ88MJaKumH0inYTW5mWZhQmcfUhbxT8is0MbX26Ypj8JBnYv58muKhqzDt37UF2tpJxLywNe7Ct/pub?gid=130298120&single=FALSE&output=csv"
 
 data2018=read.csv(link,stringsAsFactors = F)
 ```
@@ -30,7 +30,7 @@ data2018=read.csv(link,stringsAsFactors = F)
 
 ![](pics/proyectos2018_metadata.png)
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 newNames=c('pexp','tipexp','oper','invers','paisprin','unidad','region','provincia','dist',
 'iga','sit_iga','iga_fechaOK','global_inv','nivel_inv','autorizado','comunico_inicio',
 'resol_iga','fecha_exp')
@@ -41,14 +41,14 @@ names(data2018)=newNames
 
 
 3. Use el comando **str** para ver los tipos de datos:
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 str(data2018)
 ```
 
 Identifique las columnas con _identificadores_.
 
 4. Pida un resumen estadístico usando **summary**:
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 summary(data2018)
 ```
 
@@ -58,26 +58,26 @@ summary(data2018)
 * iga
 * sit_iga
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 data2018[,c(2,5,10,11)]=lapply(data2018[,c(2,5,10,11)],as.factor)
 ```
 
 Luego, pida el resumen estadístico nuevamente.
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 summary(data2018)
 ```
 
 
 5. Use el comando **table** con la variable *nivel_inv*:
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 table(data2018$nivel_inv)
 ```
 
 6. Decida a qué tipo de categoríca debe ser convertida la variable *nivel_inv*, y hágalo:
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 data2018$nivel_inv=factor(data2018$nivel_inv,
                           levels = c('baja','media','alta'),
                           ordered = T)
@@ -85,13 +85,13 @@ data2018$nivel_inv=factor(data2018$nivel_inv,
 
 Vuelva a pedir el resumen estadístico:
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 summary(data2018)
 ```
 
 7. Haga un gráfico para la variable país principal (*paisprin*). 
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 library(scales) # para 'scales::percent'
 library(ggplot2)
 
@@ -109,7 +109,7 @@ bar1p + labs( x="País",
 
 8. Haga un gráfico para la variable nivel de inversión (*nivel_inv*).
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=FALSE}
 
 base = ggplot(data=data2018,aes(x=nivel_inv))
 bar1p = base + geom_bar(aes(y = (..count..)/sum(..count..)))
