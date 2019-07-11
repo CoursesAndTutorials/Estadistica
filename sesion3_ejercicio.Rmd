@@ -1,0 +1,67 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 2: 
+
+## **Exploración de Datos Categóricos en R**
+
+## Ejercicios:
+
+Seguimos con el archivo que contiene información de proyectos de exploración minera para el 2018: 
+![](pics/proyectos2018.png)
+
+El cual se abre con este comando:
+
+```{r}
+link="https://docs.google.com/spreadsheets/d/e/2PACX-1vSaZQ88MJaKumH0inYTW5mWZhQmcfUhbxT8is0MbX26Ypj8JBnYv58muKhqzDt37UF2tpJxLywNe7Ct/pub?gid=130298120&single=FALSE&output=csv"
+
+exploracion18=read.csv(link,stringsAsFactors = F)
+```
+
+Al ver las columnas, cambie el nombre a las fechas:
+```{r}
+
+posiciones=c(12,18)
+nuevosNombres=c('fechaIGA_aprob','fecha_expe')
+names(exploracion18)[posiciones]=nuevosNombres
+str(exploracion18)
+```
+
+Ahora convertire esos textos de fecha en valores que R entienda como fechas:
+
+
+```{r}
+# note:
+# d es dia / m es mes / Y es año
+exploracion18$fechaIGA_aprob=as.Date(exploracion18$fechaIGA_aprob, "%d/%m/%Y",)
+exploracion18$fecha_expe=as.Date(exploracion18$fecha_expe, "%d/%m/%Y",)
+```
+
+Nota la diferencia:
+
+
+```{r}
+str(exploracion18) # ahora sí son fechas.
+```
+
+Como tenemos fechas calculemos la diferencia en días:
+
+
+```{r}
+exploracion18$tiempoOK=difftime(exploracion18$fechaIGA_aprob,exploracion18$fecha_expe, 
+                                units = c("days"))
+
+exploracion18$tiempoOK=as.numeric(exploracion18$tiempoOK)
+```
+
+Tenemos una nueva variable, que nos informa del tiempo que demora en que se de una aprobación. Haga todos los calculos y graficos para una variable de este tipo, siguiendo lo mostrado en la sesion 3.
+
+
+____
+
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+

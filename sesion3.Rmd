@@ -1,0 +1,178 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 3: 
+
+## **Exploración de Datos Numéricos**
+
+____
+
+La exploración numérica es más conocida en general. Pero en este tipo de datos se produce mucha más información. Veamos todos estos detalles en esta unidad.
+
+
+Veamos los datos sobre proyectos de exploración antes vistos:
+
+```{r}
+link="https://docs.google.com/spreadsheets/d/e/2PACX-1vSaZQ88MJaKumH0inYTW5mWZhQmcfUhbxT8is0MbX26Ypj8JBnYv58muKhqzDt37UF2tpJxLywNe7Ct/pub?gid=130298120&single=FALSE&output=csv"
+
+exploracion18=read.csv(link,stringsAsFactors = F)
+```
+
+Los tipos de datos son:
+```{r}
+str(exploracion18,width=65,strict.width='cut')
+```
+
+De estos datos tenemos una column numérica, _Inversión.Global..millones.de.US.._; pero tenemos datos de fechas que podemos utilizar, _Fecha.de.aprobación.del.IGA_ y _Fecha.de.expediente_. Estas tres variable está en las columnas 12,13, y 18; cambiemos los nombres:
+
+```{r}
+posiciones=c(12,13,18)
+nuevosNombres=c('fechaIGA_aprob','inversionUS_mill','fecha_expe')
+names(exploracion18)[posiciones]=nuevosNombres
+```
+
+Queda así:
+```{r}
+str(exploracion18,width=65,strict.width='cut')
+```
+
+**1. Medidas de resumen*
+
+1.1. Centralidad.
+
+La moda no se suele calcular en valores numéricos. A veces se calcula para valores numericos enteros, pero nunca en valores numericos con decimales. Pero si podemos calcular la mediana y la media.
+
+```{r}
+mean(exploracion18$inversionUS_mill)
+```
+
+```{r}
+median(exploracion18$inversionUS_mill)
+```
+
+La media es el valor que representa el promedio aritmético de todos los valores. La mediana, ya sabemos, es el maximo valor al que llegaría el 50% de los datos, en este caso, la mitad de los proyectos no pasa de 2 millones. La mediana siempre informa algo muy concreto. 
+
+Por otro lado, la media es un valor que *podría* darnos una idea más clara de toda la población, es decir, la media tal y como está, nos trata de decir que los proyectos de exploración en nuestra país giran alrededor de 5 millones de dolares, pero eso es muy impreciso. Lo que sucede es que hay valores extremos que causan esa imprecisión. Si la mediana y la media están muy cerca, la media es más informativa.
+
+Cuando uno usa *summary*, aparecen ambos valores y otros que ayudan a entender el comportamiento de los datos:
+```{r}
+summary(exploracion18$inversionUS_mill)
+```
+
+Recordemos que los cuartiles marcan fronteras. El valor 0.9925 indica que tenemos 25% de inversiones que no superan los 992 mil dólares, y el tercer cuartil indica que hay otro 25% que al menos es de 5.8 millones. 
+
+Cada cuartil se puede calcular asi:
+
+```{r}
+quantile(exploracion18$inversionUS_mill, probs = c(0.25,0.75))
+```
+
+
+1.2. Simetría.
+
+La simetría informa si los valores tienen algun sesgo. Ello será así si tenemos presencia de *valores extremos* altos o bajos. Se dice que hay simetria positiva si hay valores extremos altos, y simetria negativa si hay valores extremos altos. Como regla práctica, hay simetria positiva si la media es mayor que la mediana, y negativa de lo contrario. Segun ello, al simetría de nuestros datos sobre inversión sería positiva. En todo caso, tenemos el coeficiente de asimetría:
+
+```{r}
+library(DescTools)
+
+Skew(exploracion18$inversionUS_mill,conf.level = .95)
+```
+
+Vemos que el cero no está presente, y que el coeficiente es positivo. Por lo tanto, se confirma lo sospechado.
+
+
+1.3. Dispersión.
+
+Como sabemos, la dispersión nos indica que tan lejos están, en promedio, todos los datos del valor central. El valor más usado para mediar la dispersión de la media es la desviación típica o desviación estandar:
+
+```{r}
+sd(exploracion18$inversionUS_mill)
+```
+
+Estos dice que el promedio de los desvíos es 8 millones. Este valor está afectado por los valores extremos.
+
+Por otro lado, la dispersión de la mediana se conoce como la desviación absoluta de la mediana (MAD).
+
+
+```{r}
+mad(exploracion18$inversionUS_mill)
+```
+
+Nótese que es mucho menor que la anterior. Por lo tanto, si la mediana es 2 millones, el vecindario de la mediana está en 1.8 millones. En este caso, los valores extremos no 'confunden' el calculo. 
+
+Recuérdese que tambien se puede usar la diferencia entre cuartiles:
+```{r}
+IQR(exploracion18$inversionUS_mill)
+```
+
+Aqui sabemos que el 50% de los datos que tienen a la mediana como centro se diferencia entre sí a lo más en 4 millones ocho cientos mil.
+
+
+**2. Análisis Gráfico*
+
+De lo anterior, sabemos ahora que los gráficos se deben mirar para evaluar centralidad, simetría y dispersión. Aquí no usamos gráficos de barra, pero algo similar es el histograma.
+```{r}
+library(ggplot2)
+
+base=ggplot(data=exploracion18,aes(x=inversionUS_mill))
+base + geom_histogram(bins=15)
+```
+
+El histograma ha dividido los datos en 15 grupos, y ha graficado las veces en que algun valor cae en cada grupo. Aquí se nota la simetría positiva, pues los extremos son los valores grandes.
+
+Un gráfico muy utilizado es el de cajas:
+```{r}
+base=ggplot(data=exploracion18,aes(y=inversionUS_mill))
+box= base + geom_boxplot()
+box
+```
+
+Aunque a veces se le prefiere mostrar echado:
+
+```{r}
+box + coord_flip() + theme(axis.text.y=element_blank(),
+                           axis.ticks.y=element_blank())
+```
+
+Los limites de la caja son los cuartiles, y la linea gruesa dentro de la caja es la mediana. Los valores señalados con puntos han sido considerados extremos o atípicos.
+
+
+
+**3. Tabla de Frecuencia**
+
+Si se desea una tabla de frecuencias, uno está conviertiendo sus datos en una variable ordinal. Lo que se hace es cortar la data en intervalos:
+
+
+```{r, eval=TRUE}
+numberOrdinal=cut(exploracion18$inversionUS_mill,breaks = 10,ordered_result = T,include.lowest = T)
+table(numberOrdinal)
+```
+
+
+La mejor apariencia:
+
+```{r, eval=TRUE}
+library(knitr)
+
+count=table(numberOrdinal) # conteo
+share=prop.table(count) # conteo en %
+cumulative_Count=cumsum(count) # suma de conteo
+cumulative_Share=cumsum(share) # suma de conteo en %
+kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
+```
+
+
+
+
+____
+
+
+Practique y pase a resolver estos [ejercicios](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion3_ejercicio.html).
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+
