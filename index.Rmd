@@ -123,8 +123,9 @@ ____
 
 3. Exploración de Datos Numéricos
 
-* Medidas de Resumen. Posición central. Posición, simetría y forma. Dispersión
-* Análisis Gráfico
+* Medidas de Resumen. Posición central. Posición, simetría y forma. Dispersión.
+* Análisis Gráfico.
+* Tablas de frecuencia.
 
 4. Exploración Bivariada
 
