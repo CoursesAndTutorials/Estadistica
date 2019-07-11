@@ -128,34 +128,23 @@ ____
 
 4. Exploración Bivariada
 
-* Relación entre categóricas
-* Relación entre categóricas y numericas
-* Relación entre numéricas
+* Relación entre categóricas.
+* Relación entre categóricas y numericas.
+* Relación entre numéricas.
 
-5. Estadística Multivariada: Regresión Lineal
-* Regresión simple
-* Regresión multivariada
-* Diágnósticos de la regresión
+5. Estadística Multivariada: Regresión 
+* Regresión simple.
+* Regresión Logítica Binomial.
+* Regresión Logítica Ordinal.
 
 
-6. Estadística Multivariada: Regresión Logística
-* Regresión Logítica Binomial
-* Regresión Logítica Ordinal
+6. Estadística Multivariada: Reducción dimensional
+* Reducción de variables.
+* Reducción de Casos.
 
-7. Estadística Multivariada: Modelos para datos censurados y truncados
-* Regresión Tobit
-* Regresión Beta
-* Regresión Cox
+7. Reportes Estadísticos
+* Uso del R para crear reportes.
 
-8. Estadística Multivariada: Reducción dimensional
-* Reducción de variables
-* Reducción de Casos
-
-9. Reportes Estadísticos I
-* Integración de R y Latex (I)
-
-10. Reportes Estadísticos II
-* Integración de R y Latex (II)
 
 
 
