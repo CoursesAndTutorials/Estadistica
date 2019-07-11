@@ -123,7 +123,7 @@ bar1p + labs( x="País",
 
 9. Calcule e interprete el indice de Herfindahl- Hirschman, así como el de Laakso - Taagepera para la variable *paisprin*.
 
-10. Haga una tabla de frecuencia para *paisprin* y para *nivel_inv*. Incluya loe elementos permitidos.
+10. Haga una tabla de frecuencia para *paisprin* y para *nivel_inv*. Incluya los elementos permitidos.
 
 
 
