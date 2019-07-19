@@ -115,38 +115,98 @@ ____
   * Uso de repositorios en la nube de GoogleDrive. 
   * Uso de RStudio Cloud. Creación y Publicación de Notebooks
       
-2. [Exploración de Datos Categóricos](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion2.html)
+2. Tabulación de la Información
 
-* Tablas de Frecuencia
-* Medidas de resumen. Posición central. Simetría. Dispersión
-* Gráficas. Barras. Diagramas de Caja
+* Caso Variables Categóricas Nominales
+  - Frecuencia Absoluta
+  
+* Caso Variables Categóricas Ordinales
+  - Frecuencia Absoluta
+  - Frecuencia Relativa
+  - Frecuencia Acumulada (absoluta y relativa)
 
-3. Exploración de Datos Numéricos
+* Caso Variables Numéricas
+  - Creación de Intervalos
+  - Frecuencia Absoluta
+  - Frecuencia Relativa
+  - Frecuencia Acumulada (absoluta y relativa)
 
-* Medidas de Resumen. Posición central. Simetría. Dispersión.
-* Análisis Gráfico.
-* Tablas de frecuencia.
+3. Representación Gráfica de la Información
 
-4. Exploración Bivariada
-
-* Relación entre categóricas.
-* Relación entre categóricas y numericas.
-* Relación entre numéricas.
-
-5. Estadística Multivariada: Regresión 
-* Regresión simple.
-* Regresión Logítica Binomial.
-* Regresión Logítica Ordinal.
-
-
-6. Estadística Multivariada: Reducción dimensional
-* Reducción de variables.
-* Reducción de Casos.
-
-7. Reportes Estadísticos
-* Uso del R para crear reportes.
+* Caso Categórico Nominal y Ordinal
+  - Barras
+  - Puntos
+  - Por que no usar Graficos de Pie.
+  
+* Caso Numérico
+  - Histograma y Poligono de Frecuencias
+  - Boxplot
 
 
+4. Medidas de Centralidad
+
+* Variable Categórica Nominal
+  - Moda
+  
+* Variable Categórica Ordinal
+  - Moda
+  - Mediana
+  
+* Variable Categórica Numérica
+  - Moda (en tabla de frecuencias)
+  - Mediana
+  - Media (simple, ponderada, geométrica, armónica y cuadrática)
+
+  
+
+5. Medidas de Posición 
+
+* Percentiles
+* Cuartiles
+* Deciles
+
+
+
+6. Medidas de Dispersión para Variables Categóricas
+
+* Variable Categórica Nominal 
+
+  - Indice de Herfindahl
+  - Indice de Laakso Taagepera
+
+* Variable Categórica Ordinal
+
+  - Indice de Herfindahl
+  - Indice de Laakso Taagepera
+  - Distancia Intercuartil
+  - Rango
+
+7. Medidas de Dispersión para Variables Numéricas
+
+* Indice de Herfindahl
+* Indice de Laakso Taagepera
+* Distancia Intercuartil
+* Rango
+* Varianza y Desviación Típica
+* Coeficiente de Variación de Pearson
+
+
+8. Medidas de Asimetría
+
+* Asimetría en Variables Ordinales
+* Asimetría en Variables Numéricas
+
+9. Medidas de Asociación Numérica
+
+* Análisis de Correlación
+* Análisis de Regresión Simple
+* Probabilidad y Significancia para prueba de hipótesis
+
+10. Medidas de Asociación Categórica
+
+* Construcción de Tablas de Contingencia
+* Análisis de Tablas de Contingencia
+* Probabilidad y Significancia para prueba de hipótesis (Chi Cuadrado)
 
 
 
