@@ -1,0 +1,145 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 2: 
+
+## **Tabulación de la Información**
+
+____
+
+Tabular es el primer paso del análisis estadístico. Es el momento en que, guiados por nuestros conocimientos previos, elegimos de las variables disponibles aquellas que tengan relevancia para nuestro proceso decisional. Este proceso se hace según el tipo de variable. En esta sesión veremos la exploración de las variables categóricas.
+
+### Parte 1. **Variable Nominales**
+
+Las variables categóricas tienen un limitado y pequeño número de modalidades o niveles. De ahí que tabular cada una de éstas nos permite conocer la distribución de la variable.
+
+```{r, eval=TRUE}
+LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=775750542&single=true&output=csv'
+mineria=read.csv(LINK,stringsAsFactors = F)
+```
+
+Veamos nuestras variables:
+```{r, eval=TRUE}
+str(mineria)
+```
+
+La data nos informa sobre el mineral o minerales que se explota en un proyecto minero y la región donde se ubica el proyecto. Trabajemos con los minerales:
+
+```{r, eval=TRUE}
+table(mineria$Mineral)
+```
+
+Una mejor manera de producir la tabla para un formato web:
+
+```{r, eval=TRUE}
+library(knitr) # para 'kable'
+
+count=table(mineria$Mineral)
+share=prop.table(count)
+kable(cbind(count,share),digits = 2)
+```
+
+
+
+La variable es de tipo **nominal** pues los nombres de los minerales mostrados no tienen un orden más allá de lo alfabético. Lo que es más, no es que un mineral pueda pasar por todos esos estados, es simplemente su tipo. Cuando trabajamos con nominales, la mayoría de las veces no es necesario transformar la columna de tipo texto en categórica (o _factor_ como se le denomina en _R_).
+
+De las tablas de frecuencia, podemos concluir que el Cobre es el mineral que tiene más proyectos en el país. 
+
+_____
+
+### Parte 2. Variables Ordinales
+
+
+Veamos otros datos:
+
+```{r, eval=TRUE}
+link2='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1869012038&single=true&output=csv'
+
+accidentes=read.csv(link2, stringsAsFactors = F)
+```
+
+Estos datos nos informan los accidentes que se dieron en proyectos mineros entre los años 2000 al 2006. 
+
+Los tipos de datos son:
+
+```{r, eval=TRUE}
+str(accidentes)
+```
+
+La última columna representa tamaño del proyecto, la columna _Tama_:
+
+```{r, eval=TRUE}
+table(accidentes$Tama)
+```
+
+Este es un claro ejemplo de variable **ordinal**. En este caso, un proyecto podría pasar por alguno de estos niveles. Por defecto, _R_ presenta la tabla en orden alfabético. Aquí sí debemos transformar la variable en el tipo que corresponde, y a la vez indicar el orden correcto:
+
+```{r, eval=TRUE}
+
+accidentes$Tama=factor(accidentes$Tama,
+                       levels=c('Pequeña','Mediana','Grande'), # orden correcto
+                       ordered = T) # T (TRUE) para ordinal
+```
+
+La tabla de frecuencias de variables ordinales puede tener frecuencias acumuladas:
+
+```{r, eval=TRUE}
+count=table(accidentes$Tama) # conteo
+share=prop.table(count) # conteo en %
+cumulative_Count=cumsum(count) # suma de conteo
+cumulative_Share=cumsum(share) # suma de conteo en %
+kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
+```
+
+
+Igualmente, la tabla de frecuencia identifica la modalidad _mediana_ como la moda.
+
+____
+
+### Parte 3. Variables Numéricas
+
+
+En la data anterior tuvimos la cantidad de accidentes por año, del 200 al 2006. Sumemos esos años:
+
+```{r}
+# comando "rowSums"
+accidentes$totalAcci=rowSums(accidentes[,c(2:8)])
+accidentes$totalAcci
+```
+
+Esa variable nueva, la debemos convertir en intervalos. R cuenta con la función **cut()**, que permite crear intervalos; lo unico que necesita esa función es que se le diga cuanto intervalos se necesitan, para lo cual usariamos la recomendación de Sturgesm usando la función **nclass.Sturges**:
+```{r}
+intervalos=cut(accidentes$totalAcci, breaks=nclass.Sturges(accidentes$totalAcci))
+# intervalos=cut(accidentes$totalAcci, breaks=breaks=c(4,10,20,30,43)) 
+intervalos
+```
+
+Una simple tabla puede mostrar lo que se tiene:
+```{r}
+table(intervalos)
+```
+
+Y con la versión web:
+
+```{r}
+count=table(intervalos) # conteo
+share=prop.table(count) # conteo en %
+cumulative_Count=cumsum(count) # suma de conteo
+cumulative_Share=cumsum(share) # suma de conteo en %
+kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
+```
+
+La tabla de frecuencia muestra que, en el periodo de tiempo elegido, el número más común de accidentes que las empresas han tenido es a lo más 10.
+
+
+**Ejercicio:**
+
+Haga una tabla de frecuencias con los datos que ha traido de su labor profesional.
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+

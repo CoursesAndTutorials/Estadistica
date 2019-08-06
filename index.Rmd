@@ -115,10 +115,11 @@ ____
   * Uso de repositorios en la nube de GoogleDrive. 
   * Uso de RStudio Cloud. Creación y Publicación de Notebooks
       
-2. Tabulación de la Información
+2. [Tabulación de la Información](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion2_tabulacion.html)
 
 * Caso Variables Categóricas Nominales
   - Frecuencia Absoluta
+  - Frecuencia Relativa
   
 * Caso Variables Categóricas Ordinales
   - Frecuencia Absoluta
