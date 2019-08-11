@@ -1,0 +1,286 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 3: 
+
+## **Representación Gráfica de la Información**
+
+____
+
+Las gráficas nos permiten informarnos sobre:
+
+- Si los valores que la variable toma son similares o hay valores sobresalientes.
+- Si hay algun patrón o no.
+- Si hay valores atípicos.
+
+Las gráficas de la variables categóricas (nominales y ordinales) usan las tablas de frecuencia. Las variables numéricas no necesitan las tablas de frecuencia, pero pueden ser usadas en algunos casos.
+
+
+### Parte 1. **Variable Nominales**
+
+Las variables nominales se grafican desde las tablas de frecuencia.
+
+```{r, eval=TRUE}
+LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=775750542&single=true&output=csv'
+mineria=read.csv(LINK,stringsAsFactors = F)
+```
+
+Veamos nuestras variables:
+```{r, eval=TRUE}
+str(mineria)
+```
+
+La función **str()** nos mostró los tipo de datos. Usemos nuevamente la variable *Mineral*:
+
+```{r, eval=TRUE}
+table(mineria$Mineral)
+```
+
+Transformemos esa **tabla** en un **data frame**, lo que facilita su tratamiento:
+
+```{r, eval=TRUE}
+#tabla anterior
+NomTabla=table(mineria$Mineral)
+
+#recuperando valores
+Nombres=names(NomTabla)
+conteo=as.vector(NomTabla)
+porcentajes=as.vector(prop.table(conteo))
+
+#conviertiendo a dataFrame
+NomDf=data.frame(var=Nombres,abs=conteo,rel=porcentajes)
+
+#resultado
+NomDf
+```
+
+
+
+La misma tabla la usamos para graficar usando la biblioteca **ggplot2**:
+
+```{r}
+library(ggplot2)
+
+base=ggplot(NomDf, aes(x=var,y=abs))
+barraNom= base + geom_bar(stat = 'identity')
+
+#veamos
+barraNom
+
+```
+
+Podemos añadir los titulos así:
+
+```{r}
+text1="¿Qué mineral tiene más minas?"
+text2="Mineral"
+text3="Conteo"
+text4="Fuente: MINEM"
+
+barraNom1= barraNom + labs(title=text1,
+                      x =text2, 
+                      y = text3,
+                      caption = text4) 
+barraNom1
+```
+
+Podríamos decorar un poco:
+
+```{r}
+barraNom1 + theme_classic() + 
+            theme(plot.title = element_text(hjust = 0.5,size=15), # centrar y agrandar
+                  plot.caption = element_text(hjust = 0), # a la derecha
+                  axis.text.x = element_text(angle=45,hjust = 1)) # angulo
+
+```
+
+Para crear el gráfico de Pareto solo necesitamos la biblioteca **ggQC**, la cual llama a la función **stat_pareto()**:
+
+```{r}
+library(ggQC)
+ 
+base + stat_pareto(bars.fill = 'gray') 
+```
+
+
+
+_____
+
+### Parte 2. Variables Ordinales
+
+
+Veamos otros datos:
+
+```{r, eval=TRUE}
+link2='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1869012038&single=true&output=csv'
+
+accidentes=read.csv(link2, stringsAsFactors = F)
+```
+
+Las columnas y sus tipos son:
+
+```{r, eval=TRUE}
+str(accidentes)
+```
+
+La última columna representa tamaño del proyecto, la columna _Tama_:
+
+```{r, eval=TRUE}
+table(accidentes$Tama)
+```
+
+Este es un claro ejemplo de variable **ordinal**. En este caso, un proyecto podría pasar por alguno de estos niveles. Por defecto, _R_ presenta la tabla en orden alfabético. Aquí sí debemos transformar la variable en el tipo que corresponde, y a la vez indicar el orden correcto:
+
+```{r, eval=TRUE}
+
+accidentes$Tama=factor(accidentes$Tama,
+                       levels=c('Pequeña','Mediana','Grande'), # orden correcto
+                       ordered = T) # T (TRUE) para ordinal
+```
+
+Hagamos la tabla de frecuencias para producir el gráfico:
+
+```{r, eval=TRUE}
+# tabla simple anterior, pero ya "ordinalizada":
+OrdTabla=table(accidentes$Tama)
+
+#recuperando valores
+Nombres=names(OrdTabla)
+conteo=as.vector(OrdTabla)
+porcentajes=as.vector(prop.table(conteo))
+
+# calculando acumulaciones
+cum_conteo=cumsum(conteo) # suma de conteo
+cum_porcentajes=cumsum(porcentajes) # suma de conteo en %
+
+#creando DF
+OrdDf=data.frame(var=Nombres,
+                    abs=conteo,rel=porcentajes,
+                    abs_acu=cum_conteo,rel_acu=cum_porcentajes,stringsAsFactors = F)
+#resultado
+OrdDf
+```
+
+
+La misma tabla la usamos para graficar usando **ggplot2**:
+
+```{r}
+base= ggplot(OrdDf, aes(x=var,y=abs)) + 
+      scale_x_discrete(limits=Nombres) # indicando orden
+barraOrd= base + geom_bar(stat = 'identity') 
+
+#veamos
+barraOrd
+```
+
+____
+
+### Parte 3. Variables Numéricas
+
+
+En la data anterior tuvimos la cantidad de accidentes por año, del 2000 al 2006. Sumemos esos años:
+
+```{r}
+# comando "rowSums"
+# aplicandolo de la columna 2 hasta la 8 inclusive
+accidentes$totalAcci=rowSums(accidentes[,c(2:8)])
+
+#este es el resultado de la columna nueva
+accidentes$totalAcci
+```
+
+Esa variable nueva, la debemos convertir en intervalos. R cuenta con la función **cut()**, que permite crear intervalos; lo unico que necesita esa función es que se le diga cuanto intervalos se necesitan, para lo cual usariamos la recomendación de Sturgesm usando la función **nclass.Sturges**:
+```{r}
+intervalos=cut(accidentes$totalAcci, breaks=nclass.Sturges(accidentes$totalAcci),
+               ordered_result = T)
+intervalos
+```
+
+Una simple tabla puede mostrar lo que se tiene:
+```{r}
+table(intervalos)
+```
+
+Y como data frame:
+
+```{r}
+intervTabla=table(intervalos)
+
+Nombres=names(intervTabla)
+conteo=as.vector(intervTabla)
+porcentajes=as.vector(prop.table(conteo))
+
+cum_conteo=cumsum(conteo) # suma de conteo
+cum_porcentajes=cumsum(porcentajes) # suma de conteo en %
+
+
+NumDf=data.frame(var=Nombres,
+                 abs=conteo,rel=porcentajes,
+                 abs_acu=cum_conteo,rel_acu=cum_porcentajes,
+                 stringsAsFactors = F)
+
+NumDf
+
+```
+
+De aquí:
+
+```{r}
+
+base=ggplot(NumDf, aes(x=var,y=abs)) + scale_x_discrete(limits=Nombres)
+NumBarra= base + geom_bar(stat = 'identity') 
+
+#veamos
+NumBarra
+
+```
+
+También funciona para Pareto:
+```{r}
+base + stat_pareto(bars.fill = 'gray') 
+```
+
+El gráfico histograma no necesita que le calculemos intervalos en ggplot, pues éste lo calcula de inmediato para toda vaiable de este tipo:
+
+```{r}
+
+base=ggplot(accidentes,aes(x=totalAcci))
+histOrd= base + geom_histogram(bins=7) 
+histOrd 
+```
+
+Al histograma le podemos añadir su polígono de frecuecias:
+
+```{r}
+histOrd1= histOrd + geom_freqpoly(bins=7,col='blue')
+histOrd1
+```
+
+Y su ojiva de dataos acumulados:
+
+```{r}
+histOrd1  + stat_bin(aes(y=cumsum(..count..)),geom="line",bins=7,col='red') 
+```
+
+
+Otro gráfico importante es al **diagrama de cajas y bigotes**:
+
+```{r}
+base=ggplot(accidentes,aes(y=totalAcci))
+base + geom_boxplot() + coord_flip()
+```
+
+Por ahora, este gráfico nos permite confirmar que tener más de 40 accidentes es muy atípico. Veremos más detalles de este gráfico luego de las sesiones sobre medidas estadísticas.
+
+
+**Ejercicio:**
+
+Utilice sus datos y prepare los gráficos que correspondan.
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+
