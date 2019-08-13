@@ -39,38 +39,32 @@ La función **str()** nos mostró los tipo de datos. Usemos nuevamente la variab
 table(mineria$Mineral)
 ```
 
-Transformemos esa **tabla** en un **data frame**, lo que facilita su tratamiento:
+Transformemos esa **tabla** en una table de frecuencias más formal tipo **data frame**, lo que facilita su tratamiento:
 
-```{r, eval=TRUE}
-#tabla anterior
-NomTabla=table(mineria$Mineral)
-
-#recuperando valores
-Nombres=names(NomTabla)
-conteo=as.vector(NomTabla)
-porcentajes=as.vector(prop.table(conteo))
-
-#conviertiendo a dataFrame
-NomDf=data.frame(var=Nombres,abs=conteo,rel=porcentajes)
-
-#resultado
+```{r}
+library(magrittr) # para concatenar funciones
+library(questionr)
+NomDf=freq(mineria$Mineral,total = F) %>% data.frame()
+NomDf=data.frame(variable=row.names(NomDf),NomDf,row.names = NULL)
 NomDf
 ```
 
 
-
-La misma tabla la usamos para graficar usando la biblioteca **ggplot2**:
+Esta tabla la usamos para graficar, usando la biblioteca **ggplot2**:
 
 ```{r}
 library(ggplot2)
 
-base=ggplot(NomDf, aes(x=var,y=abs))
+#usando nombres de la tabla:
+base=ggplot(NomDf, aes(x=variable,y=n))
 barraNom= base + geom_bar(stat = 'identity')
 
 #veamos
 barraNom
 
 ```
+
+Las barras representan rápidamente la informacíon de las tablas; con la ventaja que visualmente resalta el mineral más comunmente explotado en Perú.
 
 Podemos añadir los titulos así:
 
@@ -102,8 +96,17 @@ Para crear el gráfico de Pareto solo necesitamos la biblioteca **ggQC**, la cua
 ```{r}
 library(ggQC)
  
-base + stat_pareto(bars.fill = 'gray') 
+pareto1 = base + stat_pareto(bars.fill = 'gray') 
+pareto1
 ```
+
+El gráfico de Pareto muestra dos medidas, los conteos y los porcentajes acumulados. Por _tradición_ se trata de detectar que valores representan el 80%. En este caso se requieren dos minerales para llegar a ese valor, es decir, el 80% de todos los proyectos explotan 2 minerales:
+```{r, message=FALSE}
+pareto1 + scale_y_continuous(sec.axis = sec_axis(~./(max(.) * 0.95) * 100, 
+                                                 name = "% Acumulado",
+                                                 breaks = seq(20,100,20)))
+```
+
 
 
 
@@ -144,37 +147,27 @@ accidentes$Tama=factor(accidentes$Tama,
 Hagamos la tabla de frecuencias para producir el gráfico:
 
 ```{r, eval=TRUE}
-# tabla simple anterior, pero ya "ordinalizada":
-OrdTabla=table(accidentes$Tama)
+OrdDf=freq(accidentes$Tama,cum = T) %>% data.frame()
+OrdDf=data.frame(variable=row.names(OrdDf),OrdDf,row.names = NULL)
 
-#recuperando valores
-Nombres=names(OrdTabla)
-conteo=as.vector(OrdTabla)
-porcentajes=as.vector(prop.table(conteo))
-
-# calculando acumulaciones
-cum_conteo=cumsum(conteo) # suma de conteo
-cum_porcentajes=cumsum(porcentajes) # suma de conteo en %
-
-#creando DF
-OrdDf=data.frame(var=Nombres,
-                    abs=conteo,rel=porcentajes,
-                    abs_acu=cum_conteo,rel_acu=cum_porcentajes,stringsAsFactors = F)
 #resultado
 OrdDf
+
 ```
 
 
 La misma tabla la usamos para graficar usando **ggplot2**:
 
 ```{r}
-base= ggplot(OrdDf, aes(x=var,y=abs)) + 
-      scale_x_discrete(limits=Nombres) # indicando orden
+base= ggplot(OrdDf, aes(x=variable,y=n)) + 
+      scale_x_discrete(limits=OrdDf$variable) # indicando orden
 barraOrd= base + geom_bar(stat = 'identity') 
 
 #veamos
 barraOrd
 ```
+
+¿Cómo sería el Pareto?
 
 ____
 
@@ -201,28 +194,18 @@ intervalos
 
 Una simple tabla puede mostrar lo que se tiene:
 ```{r}
-table(intervalos)
+str(intervalos)
 ```
 
 Y como data frame:
 
 ```{r}
-intervTabla=table(intervalos)
-
-Nombres=names(intervTabla)
-conteo=as.vector(intervTabla)
-porcentajes=as.vector(prop.table(conteo))
-
-cum_conteo=cumsum(conteo) # suma de conteo
-cum_porcentajes=cumsum(porcentajes) # suma de conteo en %
-
-
-NumDf=data.frame(var=Nombres,
-                 abs=conteo,rel=porcentajes,
-                 abs_acu=cum_conteo,rel_acu=cum_porcentajes,
-                 stringsAsFactors = F)
-
+NumDf=freq(intervalos,cum = TRUE) %>% data.frame()
+NumDf=data.frame(variable=row.names(NumDf),NumDf,row.names = NULL)
+#resultado
 NumDf
+
+
 
 ```
 
@@ -230,7 +213,7 @@ De aquí:
 
 ```{r}
 
-base=ggplot(NumDf, aes(x=var,y=abs)) + scale_x_discrete(limits=Nombres)
+base=ggplot(NumDf, aes(x=variable,y=n)) + scale_x_discrete(limits=NumDf$variable)
 NumBarra= base + geom_bar(stat = 'identity') 
 
 #veamos
@@ -248,21 +231,21 @@ El gráfico histograma no necesita que le calculemos intervalos en ggplot, pues 
 ```{r}
 
 base=ggplot(accidentes,aes(x=totalAcci))
-histOrd= base + geom_histogram(bins=7) 
-histOrd 
+histNum= base + geom_histogram(bins=7) 
+histNum 
 ```
 
-Al histograma le podemos añadir su polígono de frecuecias:
+Al histograma le podemos añadir su polígono de frecuencias:
 
 ```{r}
-histOrd1= histOrd + geom_freqpoly(bins=7,col='blue')
-histOrd1
+histNum1= histNum + geom_freqpoly(bins=7,col='blue')
+histNum1
 ```
 
-Y su ojiva de dataos acumulados:
+Y su ojiva de datos acumulados:
 
 ```{r}
-histOrd1  + stat_bin(aes(y=cumsum(..count..)),geom="line",bins=7,col='red') 
+histNum1  + stat_bin(aes(y=cumsum(..count..)),geom="line",bins=7,col='red') 
 ```
 
 

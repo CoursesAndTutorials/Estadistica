@@ -1,0 +1,151 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 4: 
+
+## **Medidas de Centralidad**
+
+____
+
+Las medidas de centralidad buscan informar cuál es el valor representativo entre una seria de valores, asumiendo que la mayor parte de los valorees está cerca a éste, y que hay valores pequeños y grandes alejados simétricamente de él.
+
+Estos valores no son facilmente distinguibles desde las gráficas, por lo que requieren ser calculados via formulas o funciones predefinidas.
+
+Las medidas de centralidad no son las mismas para todos los tipos de datos; lo que se calcula para lo categórico no siempre es válido para lo numérico.
+
+
+### Parte 1. **Variable Nominales**
+
+Descarguemos los datos conocidos:
+
+```{r, eval=TRUE}
+LINK='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=775750542&single=true&output=csv'
+mineria=read.csv(LINK,stringsAsFactors = F)
+#
+str(mineria)
+```
+
+La medida de centralidad para la variable en escala nominal es la moda.
+```{r, eval=TRUE}
+library(DescTools) # para estadisticos categóricos
+
+Mode(mineria$Mineral)
+```
+
+Esto lo sabíamos desde la tabla de frecuencias:
+
+```{r, eval=TRUE}
+library(magrittr) # para concatenar funciones
+library(questionr)
+NomDf=freq(mineria$Mineral,total = T,sort = 'dec') %>% data.frame()
+NomDf=data.frame(variable=row.names(NomDf),NomDf,row.names = NULL)
+NomDf
+```
+
+
+
+_____
+
+### Parte 2. Variables Ordinales
+
+
+Veamos los datos sobre accidentes nuevamente:
+
+```{r, eval=TRUE}
+link2='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1869012038&single=true&output=csv'
+
+accidentes=read.csv(link2, stringsAsFactors = F)
+#
+str(accidentes)
+```
+
+Preparando variable:
+```{r, eval=TRUE}
+
+accidentes$Tama=factor(accidentes$Tama,
+                       levels=c('Pequeña','Mediana','Grande'), # orden correcto
+                       ordered = T) # T (TRUE) para ordinal
+```
+
+La Tabla de frecuencias:
+
+```{r}
+OrdDf=freq(accidentes$Tama,cum = T,total = T) %>% data.frame()
+OrdDf=data.frame(variable=row.names(OrdDf),OrdDf,row.names = NULL)
+
+#resultado
+OrdDf
+```
+
+De la tabla podemos apreciar la moda:
+```{r}
+Mode(accidentes$Tama)
+```
+
+Considere como mejor medida de centralidad, desde la ordinal, a la **mediana**. La mediana ya se puede calcular en la escala ordinal y se interpreta como el valor  igual o menor al 50% de los casos:
+```{r}
+Median(accidentes$Tama)
+```
+
+____
+
+### Parte 3. Variables Numéricas
+
+
+En la data anterior tuvimos la cantidad de accidentes por año, del 2000 al 2006. Sumemos esos años:
+
+```{r}
+# comando "rowSums"
+# aplicandolo de la columna 2 hasta la 8 inclusive
+accidentes$totalAcci=rowSums(accidentes[,c(2:8)])
+
+#este es el resultado de la columna nueva
+accidentes$totalAcci
+```
+
+Las variables numéricas no requieren tablas de frecuencia para calcular las medidas centrales. 
+
+* Mediana
+
+```{r}
+median(accidentes$totalAcci, na.rm = T)
+```
+
+La mediana aparece claramente en el boxplot, es la linea más gruesa _dentro_ de la caja:
+
+```{r}
+base=ggplot(accidentes,aes(y=totalAcci))
+base + geom_boxplot() + coord_flip()
+```
+
+
+
+* Media
+
+```{r}
+mean(accidentes$totalAcci, na.rm = T)
+```
+
+La media no se muestra en ninguna gráfica, pero podemos mostrarla si deseamos:
+
+```{r}
+base=ggplot(accidentes,aes(x=totalAcci))
+
+histNum= base + geom_histogram(bins=7,fill='gray') 
+histNum +geom_vline(xintercept = mean(accidentes$totalAcci, na.rm = T),col='red') +
+         geom_vline(xintercept = median(accidentes$totalAcci, na.rm = T),col='blue')
+```
+
+
+
+**Ejercicio:**
+
+Utilice sus datos y calcule las medidas que correspondan.
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+

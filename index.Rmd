@@ -132,7 +132,7 @@ ____
   - Frecuencia Relativa
   - Frecuencia Acumulada (absoluta y relativa)
 
-3. Representación Gráfica de la Información
+3. [Representación Gráfica de la Información](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion3_Graficas.html)
 
 * Caso Categórico Nominal y Ordinal
   - Barras
@@ -156,7 +156,7 @@ ____
 * Variable Categórica Numérica
   - Moda (en tabla de frecuencias)
   - Mediana
-  - Media (simple, ponderada, geométrica, armónica y cuadrática)
+  - Media (simple, geométrica, armónica y cuadrática)
 
   
 
