@@ -144,7 +144,7 @@ ____
   - Boxplot
 
 
-4. Medidas de Centralidad
+4. [Medidas de Centralidad](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion4_Centralidad.html)
 
 * Variable Categórica Nominal
   - Moda
@@ -160,18 +160,18 @@ ____
 
   
 
-5. Medidas de Posición 
+5. Medidas de Posición y Forma
 
-* Percentiles
-* Cuartiles
-* Deciles
-
-
+* Posición:
+  - Cuartiles
+  - Quintiles
+* Forma:
+  - Apuntamiento o Curtosis
+  - Asimetría
 
 6. Medidas de Dispersión para Variables Categóricas
 
 * Variable Categórica Nominal 
-
   - Indice de Herfindahl
   - Indice de Laakso Taagepera
 
@@ -192,23 +192,19 @@ ____
 * Coeficiente de Variación de Pearson
 
 
-8. Medidas de Asimetría
-
-* Asimetría en Variables Ordinales
-* Asimetría en Variables Numéricas
-
-9. Medidas de Asociación Numérica
+8. Medidas de Asociación Numérica
 
 * Análisis de Correlación
 * Análisis de Regresión Simple
 * Probabilidad y Significancia para prueba de hipótesis
 
-10. Medidas de Asociación Categórica
+9. Medidas de Asociación Categórica
 
 * Construcción de Tablas de Contingencia
 * Análisis de Tablas de Contingencia
 * Probabilidad y Significancia para prueba de hipótesis (Chi Cuadrado)
 
+10. Evaluación
 
 
 

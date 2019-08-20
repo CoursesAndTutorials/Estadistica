@@ -10,7 +10,7 @@ ____
 
 ____
 
-Las medidas de centralidad buscan informar cuál es el valor representativo entre una seria de valores, asumiendo que la mayor parte de los valorees está cerca a éste, y que hay valores pequeños y grandes alejados simétricamente de él.
+Las medidas de centralidad buscan informar cuál es el valor representativo entre una seria de valores, asumiendo que la mayor parte de los valores está cerca a éste, y que hay valores pequeños y grandes alejados simétricamente de él.
 
 Estos valores no son facilmente distinguibles desde las gráficas, por lo que requieren ser calculados via formulas o funciones predefinidas.
 
@@ -28,7 +28,7 @@ mineria=read.csv(LINK,stringsAsFactors = F)
 str(mineria)
 ```
 
-La medida de centralidad para la variable en escala nominal es la moda.
+La medida de centralidad para la variable en escala nominal es la **moda**.
 ```{r, eval=TRUE}
 library(DescTools) # para estadisticos categóricos
 
@@ -85,7 +85,7 @@ De la tabla podemos apreciar la moda:
 Mode(accidentes$Tama)
 ```
 
-Considere como mejor medida de centralidad, desde la ordinal, a la **mediana**. La mediana ya se puede calcular en la escala ordinal y se interpreta como el valor  igual o menor al 50% de los casos:
+Considere como mejor medida de centralidad, desde la ordinal, a la **mediana**. La mediana ya se puede calcular en la escala ordinal y se interpreta como el valor  máximo que alcanza la mitad de los valores:
 ```{r}
 Median(accidentes$Tama)
 ```
@@ -117,13 +117,22 @@ median(accidentes$totalAcci, na.rm = T)
 La mediana aparece claramente en el boxplot, es la linea más gruesa _dentro_ de la caja:
 
 ```{r}
+library(ggplot2)
 base=ggplot(accidentes,aes(y=totalAcci))
-base + geom_boxplot() + coord_flip()
+box= base + geom_boxplot() + coord_flip()
+box
+```
+
+Si cambiamos eje, se ve más claro
+```{r}
+box + scale_y_continuous(breaks=seq(0, 44, 4))
 ```
 
 
 
 * Media
+
+La media representa el valor representativo de los datos; es más significativa si los datos no están sesgados.
 
 ```{r}
 mean(accidentes$totalAcci, na.rm = T)
@@ -135,11 +144,97 @@ La media no se muestra en ninguna gráfica, pero podemos mostrarla si deseamos:
 base=ggplot(accidentes,aes(x=totalAcci))
 
 histNum= base + geom_histogram(bins=7,fill='gray') 
-histNum +geom_vline(xintercept = mean(accidentes$totalAcci, na.rm = T),col='red') +
-         geom_vline(xintercept = median(accidentes$totalAcci, na.rm = T),col='blue')
+histNum +geom_vline(aes(xintercept = mean(accidentes$totalAcci, na.rm = T),color="media")) +
+         geom_vline(aes(xintercept = median(accidentes$totalAcci, na.rm = T),color="mediana")) +
+         scale_color_manual(name = "Centralidad", values = c(mediana = "blue", media = "red"))
+  
+```
+
+**Otras medidas**
+
+Existen otras maneras de sacar '*promedios*' que pueden aplicarse a situaciones particulares.
+
+A. En estos datos tengo velocidades (distancia/tiempo), y dos columnas donde se indica cuanto se recorrió a esa velocidad:
+
+```{r}
+linkVelo='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=1492332179&single=true&output=csv'
+
+velo=read.csv(linkVelo,stringsAsFactors = F)
+velo
+```
+
+Cuando tenemos unidades en tasas (km/hr), debemos usar la **armonica**. Para facilitar cálculo instalemos la biblioteca **remotes** y seguidamente la biblioteca **rtoolz**, así:
+
+
+```{r, message=FALSE}
+#remotes::install_github("rogiersbart/rtoolz")
+library(rtoolz)
+```
+
+* Si las distancias son las _mismas_, la velocidad promedio es:
+
+```{r}
+harmean(velo$velocidad)
+```
+
+* Si las distancias son *diferentes*, la velocidad promedio es:
+```{r}
+x=velo$velocidad
+w=velo$distancia_dia2
+weighted.harmean(x, w)
+```
+
+B. En estos datos tengo información sobre calificaciones hechas a diversos servicios:
+
+```{r}
+linkServ='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=536416919&single=true&output=csv'
+
+servicios=read.csv(linkServ,stringsAsFactors = F)
+servicios
+```
+
+Cada servicio ha sido calificado por diferentes clientes; pero la escala de calificación no ha sido la misma. Cómo saber cuál ha sido el mejor?
+
+1. Media geometrica por fila:
+```{r}
+servicios$promedio=apply(servicios[,c(2:4)],1,geomean) # 1 es fila
+```
+
+2. Sacar ranking:
+```{r}
+# si tenemos:
+servicios
+```
+
+```{r}
+#rankeamos:
+servicios$ranking=rank(-servicios$promedio)
+
+#ver
+
+servicios
 ```
 
 
+C. Finalmente, tenemos datos sobre errores de un cajero (por exceso o defecto):
+
+```{r}
+linkErr='https://docs.google.com/spreadsheets/d/e/2PACX-1vSKuD4fkPOCgoRhefu9cDLzKJe-tkZ8V0EDPihgr2B6PZK3j-MGAfcSyNRQ91hzhuEh_iCebo1-8DWu/pub?gid=836068031&single=true&output=csv'
+errores=read.csv(linkErr,stringsAsFactors = F)
+errores
+```
+
+Queremos saber, el promedio de sus errores (sin importar signo):
+
+```{r}
+sqrt(mean((errores$errorCajero)^2))
+```
+
+O con la libreria **seewave**:
+```{r}
+library(seewave)
+rms(errores$errorCajero)
+```
 
 **Ejercicio:**
 
