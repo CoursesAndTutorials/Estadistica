@@ -125,7 +125,12 @@ Recuerda que la asimetría positiva hace que la media sea mayor que la mediana. 
 
 **Ejercicio:**
 
-Utilice sus datos y calcule las medidas que correspondan.
+1. Utilice sus datos y calcule las medidas que correspondan.
+
+
+2. Llene esta encuesta:
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScsagJOhwzsCbdqKIfQdBVREMf-Aly1wWh5BaX7n-zgJnruTw/viewform?embedded=true" width="640" height="924" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
 
 ____
 
