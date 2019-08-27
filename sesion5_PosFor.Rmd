@@ -132,6 +132,10 @@ Recuerda que la asimetría positiva hace que la media sea mayor que la mediana. 
 
 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScsagJOhwzsCbdqKIfQdBVREMf-Aly1wWh5BaX7n-zgJnruTw/viewform?embedded=true" width="640" height="924" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
 
+
+3. vea data [AQUI](https://docs.google.com/spreadsheets/d/1vfBLwrm8eMFgS6REbMskcQbtiC5nXQEdixkRXMkDhoY/edit?usp=sharing)
+
+
 ____
 
 [Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
