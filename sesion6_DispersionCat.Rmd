@@ -1,0 +1,145 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 6: 
+
+## **Medidas de Dispersión para Variables Categóricas**
+
+____
+
+Las medidas de dispersión para variables categóricas nos informan qué tan concentrados están los valores en relación a las medidas de centralidad.
+
+
+### Parte 1. **Dispersión Nominal**
+
+Veamos datos sobre viaticos:
+
+```{r, eval=TRUE}
+link='https://docs.google.com/spreadsheets/d/e/2PACX-1vRKNixPDRx-satxXqLVfuqEq4qBJuhyrVnoh5VJRguwqSgIh5lvJrgUg-khsypWXiUCBXbaFQ_uFEqW/pub?gid=1396607194&single=true&output=csv'
+
+viaticos=read.csv(link, stringsAsFactors = F)
+#
+str(viaticos)
+```
+
+Construyamos la tabla de frecuencias. Usemos la variable de usuarios:
+```{r}
+VarNom=viaticos$VC_VIATICOS_USUARIOS
+```
+
+Aquí está:
+
+```{r, eval=TRUE}
+library(magrittr) # para concatenar funciones
+library(questionr)
+NomDf=freq(viaticos$VC_VIATICOS_USUARIOS,total = F,sort = 'dec',valid=F) %>% data.frame()
+NomDf=data.frame(variable=row.names(NomDf),NomDf,row.names = NULL)
+names(NomDf)=c('usuarios','FqABS','FqREL')
+NomDf
+```
+
+La moda la observamos, pero podemos calcularla así:
+```{r}
+library(DescTools)
+
+Mode(VarNom)
+```
+
+Para saber cuánto concentra la moda, Indice de Herfindahl:
+
+```{r}
+# * < 0.01 : indica que la moda no es significativa, las categorias tienen pesos similares.
+# * < 0.15 : indica que la moda no es significativa, varias categorias tienen pesos similares.
+# * entre 0.15 - 0.3: hay una moda significativa.
+# * > 0.3: La moda se diferencia de los demas
+# * cerca a 1 la moda concentró casi todo
+
+Herfindahl(table(VarNom))
+
+```
+
+
+Para saber cuantos usuarios son representativos, Indice de Laakso - Taagepera
+
+```{r}
+1/ Herfindahl(table(VarNom))
+```
+
+
+
+### Parte 2. **Dispersión Ordinal**
+
+
+Construyamos la tabla de frecuencias para los meses de enero a junio. Usemos la variable mes:
+```{r}
+VarOrd=viaticos[viaticos$VC_VIATICOS_MES<=6,'VC_VIATICOS_MES']
+```
+
+Aquí está:
+
+```{r, eval=TRUE}
+library(magrittr) # para concatenar funciones
+library(questionr)
+OrdDf=freq(VarOrd,total = F,valid=F,cum = T) %>% data.frame()
+OrdDf=data.frame(variable=row.names(OrdDf),OrdDf,row.names = NULL)
+#names(NomDf)=c('usuarios','FqABS','FqREL')
+OrdDf
+```
+
+La moda la observamos, pero podemos calcularla así:
+```{r}
+library(DescTools)
+
+Mode(VarOrd)
+```
+
+Para saber cuánto concentra la moda, Indice de Herfindahl:
+
+```{r}
+# * < 0.01 : indica que la moda no es significativa, las categorias tienen pesos similares.
+# * < 0.15 : indica que la moda no es significativa, varias categorias tienen pesos similares.
+# * entre 0.15 - 0.3: hay una moda significativa.
+# * > 0.3: La moda se diferencia de los demas
+# * cerca a 1 la moda concentró casi todo
+
+Herfindahl(table(VarOrd))
+
+```
+
+
+Para saber cuantos usuarios son representativos, Indice de Laakso - Taagepera
+
+```{r}
+1/ Herfindahl(table(VarOrd))
+```
+
+
+La mediana es:
+
+```{r}
+Median(VarOrd)
+```
+
+La distancia intercuartil:
+```{r}
+IQR(VarOrd)
+```
+
+La desviacion absoluta de la media es:
+
+```{r}
+MAD(VarOrd, constant = 1)
+```
+
+
+**Ejercicio:**
+
+Utilice sus datos y calcule las medidas que correspondan.
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+

@@ -60,7 +60,7 @@ Esos son los valores representados por la caja central.
 box+ scale_y_continuous(breaks=as.vector(cuartiles))
 ```
 
-De ahí, sabemos que el 25% de los valores más bajos nos supera 5 accidentes, y que el 25% de los más altos no baja de 13 accidentes. Recuerda que la mediana es le cuartil 2.
+De ahí, sabemos que el 25% de los valores más bajos no supera 5 accidentes, y que el 25% de los más altos no baja de 13 accidentes. Recuerda que la mediana es el cuartil 2.
 
 El valor a la derecha, representado por un punto, representa un valor **atípico**. Ante la presencia de atípicos, la mediana es más informativa que la media.
 
@@ -76,7 +76,7 @@ histNum + geom_vline(aes(xintercept = cuartiles[1],color="q1")) +
   
 ```
 
-### Parte 2. **Apuntamiento o Curtósis**
+### Parte 2. **Apuntamiento o Curtosis**
 
 Usemos un histograma teniendo como fondo la curva normal:
 
@@ -90,13 +90,14 @@ stat_function(fun = dnorm,args = list(mean = mean(accidentes$totalAcci),
 ```
 
 Esto nos sugiere que hay mucho apuntamiento, verifiquemos si se obtiene un valor positivo:
+
 ```{r}
 library(DescTools)
 set.seed(123)
-Kurt(accidentes$totalAcci,conf.level = 0.05, ci.type = 'bca')
+Kurt(accidentes$totalAcci,conf.level = 0.05, ci.type = 'bca', method = 2)
 ```
 
-R te dice aquí que el coeficiente de curtosis para estos datos es 6.3; y también te informa donde estaría el verdadero valor en poblaciones de este tipo. Si el intervalo tocase el cero, es probable que no haya curtosis en estos datos.
+R te dice aquí que el coeficiente de curtosis para estos datos; y también te informa donde estaría el verdadero valor en poblaciones de este tipo. Si el intervalo tocase el cero, es probable que no haya curtosis en estos datos.
 
 
 ### Parte 3. **Asimetría**
@@ -106,7 +107,7 @@ La asimetría informa la presencia de colas hacia la derecha o la izquierda. Com
 Skew(accidentes$totalAcci,conf.level = 0.05, ci.type = 'bca')
 ```
 
-La asimetría se confirma, pricipalmente por que el intervalo de coeficiente no toca el cero.
+La asimetría positiva se confirma  por que el intervalo de coeficiente no toca el cero.
 
 Recordemos este histograma:
 

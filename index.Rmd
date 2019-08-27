@@ -160,7 +160,7 @@ ____
 
   
 
-5. Medidas de Posición y Forma
+5. [Medidas de Posición y Forma](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion5_PosFor.html)
 
 * Posición:
   - Cuartiles
@@ -180,29 +180,29 @@ ____
   - Indice de Herfindahl
   - Indice de Laakso Taagepera
   - Distancia Intercuartil
-  - Rango
+  - Desviación Absoluta de la Mediana
+  
 
 7. Medidas de Dispersión para Variables Numéricas
 
-* Indice de Herfindahl
-* Indice de Laakso Taagepera
-* Distancia Intercuartil
+* Distancia Intercuartil y Desviación Absoluta de la Mediana
 * Rango
 * Varianza y Desviación Típica
 * Coeficiente de Variación de Pearson
 
+8. Medidas de Asociación Categórica
 
-8. Medidas de Asociación Numérica
+* Construcción de Tablas de Contingencia
+* Análisis de Tablas de Contingencia
+* Probabilidad y Significancia para prueba de hipótesis (Chi Cuadrado)
+
+9. Medidas de Asociación Numérica
 
 * Análisis de Correlación
 * Análisis de Regresión Simple
 * Probabilidad y Significancia para prueba de hipótesis
 
-9. Medidas de Asociación Categórica
 
-* Construcción de Tablas de Contingencia
-* Análisis de Tablas de Contingencia
-* Probabilidad y Significancia para prueba de hipótesis (Chi Cuadrado)
 
 10. Evaluación
 
