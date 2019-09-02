@@ -1,0 +1,112 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 7: 
+
+## **Medidas de Dispersión para Variables Numéricas**
+
+____
+
+Las medidas de dispersión para variables numéricas también nos informan qué tan concentrados están los valores en relación a las medidas de centralidad.
+
+
+Veamos nuevamente los datos sobre viaticos:
+
+```{r, eval=TRUE}
+link='https://docs.google.com/spreadsheets/d/e/2PACX-1vRKNixPDRx-satxXqLVfuqEq4qBJuhyrVnoh5VJRguwqSgIh5lvJrgUg-khsypWXiUCBXbaFQ_uFEqW/pub?gid=1396607194&single=true&output=csv'
+
+viaticos=read.csv(link, stringsAsFactors = F)
+#
+str(viaticos)
+```
+
+La variable que analizaremos es el monto entregado por viaticos en cada viaje:
+```{r}
+VarNum=viaticos$DC_VIATICOS_TOTAL_N
+```
+
+El histograma:
+
+
+```{r}
+library(ggplot2)
+base1=ggplot(viaticos,aes(x=VarNum))  
+base1 + geom_histogram(bins = 20)
+```
+
+Veamos sus estadigrafos básicos:
+```{r}
+summary(VarNum)
+```
+
+
+* ¿La variable se distribuye simetricamente?
+
+```{r}
+library(DescTools)
+Skew(VarNum)
+```
+
+Se confirma que la asimetría es alta y positiva. Notese la distancia entre la mediana y la moda.
+
+* ¿La variable tiene moda prominente?
+
+```{r}
+Kurt(VarNum)
+```
+Se confirma que la moda es prominente, la distribución es leptocurtica.
+
+* ¿Habrá valores atípicos?
+```{r}
+sd(VarNum)
+```
+La desviación típica confirma una alta dispersion, considerando que es casi tan grande como la media:
+
+```{r}
+CoefVar(VarNum)
+```
+
+Y dada la cola a la derecha, es lógico suponer que hay atípicos:
+```{r}
+base2=ggplot(viaticos,aes(y=VarNum))  
+base2 + geom_boxplot() + coord_flip()
+```
+
+Los atipicos comienzan a partir de:
+```{r}
+1.5*IQR(VarNum) + as.vector(summary(VarNum)[5])
+```
+Todo monto que supere ello se considera un valor atípico.
+```{r}
+length(VarNum[VarNum>1920])
+```
+
+De los 1180, se tiene esa cantidad de montos considerados atípicos.
+
+
+```{r}
+Gini(VarNum)
+```
+
+```{r}
+library(gglorenz) # instalar 
+
+base1 + stat_lorenz(color='red') +
+    geom_abline(linetype = "dashed") + coord_fixed() +
+    labs(x = "% Acumulado de Empresas",
+         y = "% Acumulado de Accidentes",
+         title = "Relación empresa / accidente",
+         caption = "Fuente: MINEM")
+```
+
+**Ejercicio:**
+
+Utilice sus datos y calcule las medidas que correspondan.
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+

@@ -35,10 +35,27 @@ Aquí está:
 ```{r, eval=TRUE}
 library(magrittr) # para concatenar funciones
 library(questionr)
-NomDf=freq(viaticos$VC_VIATICOS_USUARIOS,total = F,sort = 'dec',valid=F) %>% data.frame()
+NomDf=freq(VarNom,total = F,sort = 'dec',valid=F) %>% data.frame()
 NomDf=data.frame(variable=row.names(NomDf),NomDf,row.names = NULL)
 names(NomDf)=c('usuarios','FqABS','FqREL')
-NomDf
+
+# solo primeros 20
+head(NomDf,20)
+```
+
+Formato de texto:
+```{r}
+library(stringr)
+NomDf$usuarios=str_to_title(NomDf$usuarios)
+```
+
+Vista gráfica:
+
+```{r}
+library(ggplot2)
+base=ggplot(NomDf,aes(x=usuarios,y=FqABS)) + scale_x_discrete(limits=NomDf$usuarios)
+bar1=base+geom_bar(stat = 'identity') + theme(axis.text.x = element_text(angle=60,hjust = 1,size = 4)) # angulo
+bar1
 ```
 
 La moda la observamos, pero podemos calcularla así:
