@@ -169,7 +169,7 @@ ____
   - Apuntamiento o Curtosis
   - Asimetría
 
-6. Medidas de Dispersión para Variables Categóricas
+6. [Medidas de Dispersión para Variables Categóricas](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion6_DispersionCat.html)
 
 * Variable Categórica Nominal 
   - Indice de Herfindahl
