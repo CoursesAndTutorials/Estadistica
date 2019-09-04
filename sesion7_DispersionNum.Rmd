@@ -86,21 +86,27 @@ length(VarNum[VarNum>1920])
 
 De los 1180, se tiene esa cantidad de montos considerados atípicos.
 
+Tenemos ademas el Indice de Gini para indicar si hay concentración (desigualdad). Mientras mas cercano a 1 hay desigualdad absoluta (una persona produce/recibe todos los valores); si está cerca a 0, todos producen/reciben lo mismo.
 
 ```{r}
 Gini(VarNum)
 ```
 
+Podemos complementar con el gráfico de Lorenz:
 ```{r}
 library(gglorenz) # instalar 
 
 base1 + stat_lorenz(color='red') +
     geom_abline(linetype = "dashed") + coord_fixed() +
-    labs(x = "% Acumulado de Empresas",
-         y = "% Acumulado de Accidentes",
-         title = "Relación empresa / accidente",
+    labs(x = "% Acumulado de Trabajadores",
+         y = "% Acumulado de Viaticos",
+         title = "Relación trabajador / viaticos",
          caption = "Fuente: MINEM")
 ```
+Esta gráfica ayuda a su intepretación:
+
+![](pics/lorenz.png)
+Tomado de: https://towardsdatascience.com/gini-coefficient-and-lorenz-curve-f19bb8f46d66
 
 **Ejercicio:**
 
