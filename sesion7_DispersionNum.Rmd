@@ -79,12 +79,19 @@ Los atipicos comienzan a partir de:
 ```{r}
 1.5*IQR(VarNum) + as.vector(summary(VarNum)[5])
 ```
+
+
+
 Todo monto que supere ello se considera un valor atípico.
 ```{r}
 length(VarNum[VarNum>1920])
 ```
 
-De los 1180, se tiene esa cantidad de montos considerados atípicos.
+De los 1180, se tiene este porcentaje de montos considerados atípicos.
+```{r}
+length(VarNum[VarNum>1920])/1180
+```
+
 
 Tenemos ademas el Indice de Gini para indicar si hay concentración (desigualdad). Mientras mas cercano a 1 hay desigualdad absoluta (una persona produce/recibe todos los valores); si está cerca a 0, todos producen/reciben lo mismo.
 
@@ -106,6 +113,7 @@ base1 + stat_lorenz(color='red') +
 Esta gráfica ayuda a su intepretación:
 
 ![](pics/lorenz.png)
+
 Tomado de: https://towardsdatascience.com/gini-coefficient-and-lorenz-curve-f19bb8f46d66
 
 **Ejercicio:**

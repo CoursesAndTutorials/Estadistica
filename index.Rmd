@@ -183,7 +183,7 @@ ____
   - Desviación Absoluta de la Mediana
   
 
-7. Medidas de Dispersión para Variables Numéricas
+7. [Medidas de Dispersión para Variables Numéricas](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion7_DispersionNum.html)
 
 * Distancia Intercuartil y Desviación Absoluta de la Mediana
 * Rango
