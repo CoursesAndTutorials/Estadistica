@@ -190,11 +190,11 @@ ____
 * Varianza y Desviación Típica
 * Coeficiente de Variación de Pearson
 
-8. Medidas de Asociación Categórica
+8. Medidas de Asociación Categórico Numérica
 
-* Construcción de Tablas de Contingencia
-* Análisis de Tablas de Contingencia
-* Probabilidad y Significancia para prueba de hipótesis (Chi Cuadrado)
+* Organización de Datos
+* Medias y Medianas agrupadas
+* Prueba de hipótesis (Paramétrica y No paramétrica)
 
 9. Medidas de Asociación Numérica
 
