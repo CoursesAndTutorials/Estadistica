@@ -190,21 +190,30 @@ ____
 * Varianza y Desviación Típica
 * Coeficiente de Variación de Pearson
 
-8. Medidas de Asociación Categórico Numérica
+8. [Medidas de Asociación Categórico Numérica](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion8_AsocCatNum.html)
 
 * Organización de Datos
 * Medias y Medianas agrupadas
 * Prueba de hipótesis (Paramétrica y No paramétrica)
 
-9. Medidas de Asociación Numérica
+9. [Medidas de Asociación Numérica](https://htmlpreview.github.io/?https://github.com/CoursesAndTutorials/Estadistica/blob/master/sesion9_AsocNumNum.html)
 
 * Análisis de Correlación
 * Análisis de Regresión Simple
 * Probabilidad y Significancia para prueba de hipótesis
 
 
-
 10. Evaluación
+
+Usando la base de datos de su trabajo:
+
+* Elija una variable y haga **uno** de estos ejercicios:
+    - Cree una tabla de contingencia, y calcule y explique los índices de Herfindahl y Laakso Tagepera.
+    - Cree un histograma, calcule los estadisticos de centralidad, asimetría y Gini. Explique lo hallado e informe si la media es mas informativa que la mediana.
+
+* Elija dos variables y haga **uno** de estos ejercicios:
+    - Si una es categorica y la otra numérica, pruebe si los valores promedio de la variable numérica se diferencian en cada nivel de la catgórica.
+    - Si ambas son numérica, calcule el coeficiente de correlación y realice un modelo de regresión. Interprete los resultados.
 
 
 
