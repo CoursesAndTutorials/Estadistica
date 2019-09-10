@@ -10,37 +10,41 @@ ____
 
 ____
 
-Aquí podemos usar el modelo 1:
-
+Traigamos los datos:
 
 ```{r}
 # link a google:
-lk1="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIzeNWn9X1UIhEWY3pnAPdUdSP9Ni7k2btVnt9GuatiSexZCAVmn09INK2fpeY8SqKPWciBI4OSfRh/pub?gid=0&single=true&output=csv"
+lk="https://docs.google.com/spreadsheets/d/e/2PACX-1vRPPixYG_1dwhr8nQW-8VHq5Fel6s7ftYpiMYt_ZIcKdU3ZCa-x8D0Nkc9ojTVpmHkGkbclq5sHJLGK/pub?gid=0&single=true&output=csv"
 
 # colectando datos
-gasto1=read.csv(lk1,stringsAsFactors = F)
+presupuesto=read.csv(lk,stringsAsFactors = F)
 ```
 
 Veamos cómo se trajo la data:
 ```{r}
-str(gasto1)
+str(presupuesto)
 ```
 
-Sabiendo lo anterior, nuestra curiosidad aumenta en saber si cada uno de los sectores aumento de un año a dos años despues. Calculemos las **nuevas** variables _avance_ para ambos años:
+Calculemos la razon girado-recaudado para cada año:
 
 ```{r}
 # para 2016
-gasto1$avance2016=gasto1$devengado2016G/gasto1$pim2016G
+presupuesto$girareca2016=presupuesto$girado2016G/presupuesto$Recaudado2016
 
 # para 2018
-gasto1$avance2018=gasto1$devengado2018G/gasto1$pim2018G
+presupuesto$girareca2018=presupuesto$girado2018G/presupuesto$Recaudado2018
 ```
 
+
+Sabiendo lo anterior, nuestra curiosidad aumenta en saber si las tasa obtenidas tienen correlación.
+
+
+### Correlación
 
 Exploremos el coeficiente de correlación:
 
 ```{r}
-cor.test(~avance2016 + avance2018, data = gasto1)
+cor.test(~girareca2016 + girareca2018, data = presupuesto)
 ```
 
 Esto sugiere que ambas variables se correlacionan positivamente. La intensidad de la correlación es alta. Eso lo vemos aquí:
@@ -48,19 +52,16 @@ Esto sugiere que ambas variables se correlacionan positivamente. La intensidad d
 
 ```{r}
 library(ggplot2)
-base = ggplot(gasto1, aes(avance2016, avance2018, label = sectorn))
+base = ggplot(presupuesto, aes(girareca2016, girareca2018, label = sectorn))
 scatterplot1 = base + geom_point()  + 
-              xlim(0.7,1) + ylim(0.7,1) 
+              xlim(0,1000) + ylim(0,1000) 
 scatterplot1
 ```
 
 
-Pero podemos ir un paso más allá y sugerir un modelo de regresión. Produzcamos otra gráfica:
+La correlación es alta, pero parece que el atípico ha influido en ello. Graficaré aquí la diagonal.
 
 ```{r}
-base = ggplot(gasto1, aes(avance2016, avance2018, label = sectorn))
-scatterplot1 = base + geom_point()  + 
-              xlim(0.7,1) + ylim(0.7,1) 
 scatterplot2 = scatterplot1 + geom_abline(linetype = "dashed")
 scatterplot2
 ```
@@ -80,20 +81,54 @@ scatterplot2 +geom_text_repel(size=3)
                   
 ```
 
-
-Se nota que hay sectores que mejoran, pero otros no. Veamos la regresión:
+Recalculemos sin el TC:
 
 ```{r}
-regre=lm(avance2018~avance2016,data = gasto1)
+# eliminando fila:
+presupuestoNOtc=presupuesto[presupuesto$sectorn!='TC',]
+
+# recalculando Pearson:
+cor.test(~girareca2016 + girareca2018, data = presupuestoNOtc)
+```
+
+La correlación baja, pero sigue siendo considerable:
+
+```{r}
+baseN = ggplot(presupuestoNOtc, aes(girareca2016, girareca2018, label = sectorn))
+scatterplotN1 = baseN + geom_point() + geom_abline(linetype = "dashed")
+scatterplotN1 +geom_text_repel(size=3)
+```
+Hagamos zoom:
+```{r}
+baseN = ggplot(presupuestoNOtc, aes(girareca2016, girareca2018, label = sectorn))
+scatterplotN1 = baseN + geom_point()  + 
+              xlim(0,15) + ylim(0,15) + geom_abline(linetype = "dashed")
+scatterplotN1 +geom_text_repel(size=3)
+```
+
+Este conjunto de sectores tiene un comportamiento tal que eleva para toda la data la correlación.
+
+
+### Regresión
+
+La regresión es un salto interesante a partir de la correlación, pues esta vez sí podemos saber el efecto de una variable, habiendo 'contenido' o 'controlado' el efecto de las demás presentes en el modelo. Planteamos aqui que el monto recaudado a nivel de gobierno central está influenciado por como se manejo los gastos e ingresos en el 2016:
+
+```{r}
+regre=lm(Recaudado2018~pim2016G + devengado2016G + girado2016G + pim2016I + Recaudado2016,
+         data = presupuesto)
 summary(regre)
 ```
 
+El resultado confirma lo obtenido en Excel. Hagamoslo ahora sin TC:
+
 ```{r}
-scatterplot2 +geom_text_repel(size=3) + geom_smooth(method = "lm", se = FALSE, color='red')
+regre2=lm(Recaudado2018~pim2016G + devengado2016G + girado2016G + pim2016I + Recaudado2016,
+         data = presupuestoNOtc)
+summary(regre2)
+
 ```
 
-Esto NO indica que haya descenso, pero sí indica que el ángulo de la diagonal es mayor al de la  la recta de regresión. ¿Que necesesitaríamos para una "mejor" recta de regresión?
-
+Vemos que a nivel de regresión no ha tenido mayor efecto el atípico encontrado.
 ____
 
 [Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
