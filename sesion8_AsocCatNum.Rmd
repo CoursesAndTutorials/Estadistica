@@ -1,0 +1,104 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 8: 
+
+## **Medidas de Asociación Categórico Numérica**
+
+____
+
+Cuando tenemos una variable categórica y otra numérica queremos saber la relación entre estas, es decir, si los valores de la nuérica varían según el nivel de la categórica. 
+
+## Caso 1: Una columna numérica y una categórica:
+
+Aqui usaremos el modelo 2 mostrado en google:
+
+
+```{r}
+# link a google:
+lk2="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIzeNWn9X1UIhEWY3pnAPdUdSP9Ni7k2btVnt9GuatiSexZCAVmn09INK2fpeY8SqKPWciBI4OSfRh/pub?gid=1108202370&single=true&output=csv"
+
+# colectando datos
+gasto2=read.csv(lk2,stringsAsFactors = F)
+```
+
+
+Veamos cómo se trajo la data:
+```{r}
+str(gasto2)
+```
+
+
+Periodo lo usaremos como variable categórica:
+
+```{r}
+gasto2$periodo=as.factor(gasto2$periodo)
+```
+
+
+Queremos testear la **hipotesis** que el nivel de avance entre un año de primer mandato y dos años después es diferente, y quizas hallar que se avanza más luego de pasado el primer año de mandato (efectivo desde medio año). El avance lo define el MEF como la tasa entre devengado y presupuesto inicial modificado. Calculemos esa **nueva** variable:
+
+```{r}
+gasto2$avance=gasto2$devengado/gasto2$pim
+```
+
+Aquí podemos ver ambas medias:
+
+```{r}
+# numerico, factor, funcion
+tapply(gasto2$avance,gasto2$periodo, FUN = mean)
+```
+
+O mas detalles:
+
+```{r}
+# numerico, factor, funcion
+tapply(gasto2$avance,gasto2$periodo, FUN = summary)
+```
+
+Visualizar con histograma:
+
+```{r}
+library(ggplot2)
+ggplot(gasto2, aes(x=avance, fill=periodo)) +
+    geom_histogram(bins=10, alpha=.3, position="identity") 
+    
+```
+
+O con boxplot:
+
+```{r}
+ggplot(gasto2, aes(y=avance, fill=periodo)) + geom_boxplot()
+```
+
+## Prueba de Hipótesis
+
+### alternativa paramétrica:
+
+Habrá variación en promedio?
+```{r}
+summary(aov(avance~periodo, data=gasto2))
+```
+
+La probabilidad que las medias sean iguales es muy alta (0.966); para rechazar la igualdad por convención se usa una probabilidad menor a 0.05.
+
+
+### alternativa no-paramétrica:
+
+Por este camino obtendríamos algo similar:
+
+```{r}
+kruskal.test(avance~periodo, data=gasto2)
+```
+
+**Ejercicio:**
+
+Utilice sus datos y calcule las medidas que correspondan.
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+

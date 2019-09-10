@@ -1,0 +1,100 @@
+# CURSO DE ACTUALIZACION EN ESTADISTICA
+
+#### Profesor: Dr. José Manuel MAGALLANES, Ph.D
+
+____
+
+## Sesión 9: 
+
+## **Medidas de Asociación Numérica-Numérica**
+
+____
+
+Aquí podemos usar el modelo 1:
+
+
+```{r}
+# link a google:
+lk1="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIzeNWn9X1UIhEWY3pnAPdUdSP9Ni7k2btVnt9GuatiSexZCAVmn09INK2fpeY8SqKPWciBI4OSfRh/pub?gid=0&single=true&output=csv"
+
+# colectando datos
+gasto1=read.csv(lk1,stringsAsFactors = F)
+```
+
+Veamos cómo se trajo la data:
+```{r}
+str(gasto1)
+```
+
+Sabiendo lo anterior, nuestra curiosidad aumenta en saber si cada uno de los sectores aumento de un año a dos años despues. Calculemos las **nuevas** variables _avance_ para ambos años:
+
+```{r}
+# para 2016
+gasto1$avance2016=gasto1$devengado2016G/gasto1$pim2016G
+
+# para 2018
+gasto1$avance2018=gasto1$devengado2018G/gasto1$pim2018G
+```
+
+
+Exploremos el coeficiente de correlación:
+
+```{r}
+cor.test(~avance2016 + avance2018, data = gasto1)
+```
+
+Esto sugiere que ambas variables se correlacionan positivamente. La intensidad de la correlación es alta. Eso lo vemos aquí:
+
+
+```{r}
+library(ggplot2)
+base = ggplot(gasto1, aes(avance2016, avance2018, label = sectorn))
+scatterplot1 = base + geom_point()  + 
+              xlim(0.7,1) + ylim(0.7,1) 
+scatterplot1
+```
+
+
+Pero podemos ir un paso más allá y sugerir un modelo de regresión. Produzcamos otra gráfica:
+
+```{r}
+base = ggplot(gasto1, aes(avance2016, avance2018, label = sectorn))
+scatterplot1 = base + geom_point()  + 
+              xlim(0.7,1) + ylim(0.7,1) 
+scatterplot2 = scatterplot1 + geom_abline(linetype = "dashed")
+scatterplot2
+```
+
+Veamos cada sector:
+
+```{r}
+scatterplot2 + geom_text(size = 3)
+```
+
+Mejoremos las etiquetas:
+
+```{r}
+library(ggrepel)
+
+scatterplot2 +geom_text_repel(size=3)
+                  
+```
+
+
+Se nota que hay sectores que mejoran, pero otros no. Veamos la regresión:
+
+```{r}
+regre=lm(avance2018~avance2016,data = gasto1)
+summary(regre)
+```
+
+```{r}
+scatterplot2 +geom_text_repel(size=3) + geom_smooth(method = "lm", se = FALSE, color='red')
+```
+
+Esto NO indica que haya descenso, pero sí indica que el ángulo de la diagonal es mayor al de la  la recta de regresión. ¿Que necesesitaríamos para una "mejor" recta de regresión?
+
+____
+
+[Volver al programa del curso](https://coursesandtutorials.github.io/Estadistica/)
+
