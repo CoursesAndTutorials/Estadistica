@@ -102,7 +102,7 @@ ____
 ### Parte 3. Variables Numéricas
 
 
-En la data anterior tuvimos la cantidad de accidentes por año, del 200 al 2006. Sumemos esos años:
+En la data anterior tuvimos la cantidad de accidentes por año, del 2000 al 2006. Sumemos esos años:
 
 ```{r}
 # comando "rowSums"
@@ -110,29 +110,29 @@ accidentes$totalAcci=rowSums(accidentes[,c(2:8)])
 accidentes$totalAcci
 ```
 
-Esa variable nueva, la debemos convertir en intervalos. R cuenta con la función **cut()**, que permite crear intervalos; lo unico que necesita esa función es que se le diga cuanto intervalos se necesitan, para lo cual usariamos la recomendación de Sturgesm usando la función **nclass.Sturges**:
+Esa variable nueva, la debemos convertir en intervalos. R cuenta con la función **cut()**, que permite crear intervalos; lo unico que necesita esa función es que se le diga cuanto intervalos se necesitan, para lo cual usariamos la recomendación de Sturges usando la función **nclass.Sturges**:
+
 ```{r}
-intervalos=cut(accidentes$totalAcci, breaks=nclass.Sturges(accidentes$totalAcci))
+accidentes$intervalos=cut(accidentes$totalAcci, breaks=nclass.Sturges(accidentes$totalAcci))
 # intervalos=cut(accidentes$totalAcci, breaks=breaks=c(4,10,20,30,43)) 
-intervalos
 ```
 
 Una simple tabla puede mostrar lo que se tiene:
 ```{r}
-table(intervalos)
+table(accidentes$intervalos)
 ```
 
 Y con la versión web:
 
 ```{r}
-count=table(intervalos) # conteo
+count=table(accidentes$intervalos) # conteo
 share=prop.table(count) # conteo en %
 cumulative_Count=cumsum(count) # suma de conteo
 cumulative_Share=cumsum(share) # suma de conteo en %
 kable(cbind(count,cumulative_Count,share,cumulative_Share),digits = 2)
 ```
 
-La tabla de frecuencia muestra que, en el periodo de tiempo elegido, el número más común de accidentes que las empresas han tenido es a lo más 10.
+La tabla de frecuencia muestra que, en el periodo de tiempo elegido, el número más común de accidentes que las empresas han tenido es a lo más 10 (intervalo entre 4.96 y 10.3).
 
 
 **Ejercicio:**

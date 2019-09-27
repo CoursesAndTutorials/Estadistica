@@ -10,7 +10,7 @@ ____
 
 ____
 
-Cuando tenemos una variable categórica y otra numérica queremos saber la relación entre estas, es decir, si los valores de la nuérica varían según el nivel de la categórica. 
+Cuando tenemos una variable categórica y otra numérica queremos saber la relación entre estas, es decir, si los valores de la numérica varían según el nivel de la categórica. 
 
 
 Traigamos la data del formato1:
