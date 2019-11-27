@@ -82,7 +82,7 @@ Habrá variación en promedio?
 summary(aov(values~ind, data=dataTest))
 ```
 
-La probabilidad que las medias sean iguales es 0.948, un valr altísimo (para rechazar la igualdad por convención se usa una probabilidad menor a 0.05).
+La probabilidad que las medias sean iguales es 0.948, un valor altísimo (para rechazar la igualdad por convención se usa una probabilidad menor a 0.05).
 
 
 ### Alternativa no-paramétrica:
